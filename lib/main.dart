@@ -8,18 +8,20 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-        title: 'Flutter demo by duytq',
-        theme: new ThemeData(primaryColor: Colors.amber, accentColor: Colors.amber),
-        debugShowCheckedModeBanner: false,
-        home: new Scaffold(
-            appBar: new AppBar(
-              title: new Text(
-                'MAIN',
-                style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-              ),
-              centerTitle: true,
-            ),
-            body: new MainScreen()));
+      title: 'Flutter demo by duytq',
+      theme: new ThemeData(primaryColor: Colors.amber, accentColor: Colors.amber),
+      debugShowCheckedModeBanner: false,
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: new Text(
+            'MAIN',
+            style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+          ),
+          centerTitle: true,
+        ),
+        body: new MainScreen(),
+      ),
+    );
   }
 }
 

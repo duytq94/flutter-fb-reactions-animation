@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62524fa3-85c5-4935-a19e-fddd900d4f3e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/lib/fb_reaction_box.dart" afterPath="$PROJECT_DIR$/lib/fb_reaction_box.dart" />
     </list>
     <ignored path="$PROJECT_DIR$/.dart_tool/" />
@@ -21,8 +20,8 @@
       <file leaf-file-name="fb_reaction_box.dart" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/fb_reaction_box.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2374">
-              <caret line="616" column="53" lean-forward="false" selection-start-line="616" selection-start-column="53" selection-end-line="616" selection-end-column="53" />
+            <state relative-caret-position="616">
+              <caret line="266" column="46" lean-forward="false" selection-start-line="266" selection-start-column="46" selection-end-line="266" selection-end-column="46" />
               <folding>
                 <element signature="e#172#502#0" expanded="false" />
                 <element signature="e#223#500#0" expanded="false" />
@@ -31,12 +30,15 @@
                 <element signature="e#303#422#0" expanded="false" />
                 <element signature="e#364#409#0" expanded="false" />
                 <element signature="e#544#601#0" expanded="false" />
-                <element signature="e#1843#1862#0" expanded="false" />
-                <element signature="e#2193#8840#0" expanded="false" />
-                <element signature="e#2223#2301#0" expanded="false" />
-                <element signature="e#10843#24938#0" expanded="false" />
-                <element signature="e#25728#26688#0" expanded="false" />
-                <element signature="e#26775#27413#0" expanded="false" />
+                <element signature="e#36261#36425#0" expanded="false" />
+                <element signature="e#39703#39772#0" expanded="false" />
+                <element signature="e#39819#40012#0" expanded="false" />
+                <element signature="e#40069#40220#0" expanded="false" />
+                <element signature="e#40275#40429#0" expanded="false" />
+                <element signature="e#40455#40578#0" expanded="false" />
+                <element signature="e#40961#41083#0" expanded="false" />
+                <element signature="e#41232#43065#0" expanded="false" />
+                <element signature="e#43169#45002#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -47,7 +49,17 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>Image</find>
+      <find>durationAnimationZoomIcon</find>
+      <find>whichIconUserChosen</find>
+      <find>moveIconWhenRelease</find>
+      <find>moveLeftIconWhenRelease</find>
     </findStrings>
+    <replaceStrings>
+      <replace>durationAnimationIconWhenDrag</replace>
+      <replace>whichIconUserChoose</replace>
+      <replace>moveUpIconWhenRelease</replace>
+      <replace>moveLeftIconLikeWhenRelease</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -284,7 +296,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
@@ -308,12 +322,15 @@
             <element signature="e#303#422#0" expanded="false" />
             <element signature="e#364#409#0" expanded="false" />
             <element signature="e#544#601#0" expanded="false" />
-            <element signature="e#1843#1862#0" expanded="false" />
-            <element signature="e#2193#8840#0" expanded="false" />
-            <element signature="e#2223#2301#0" expanded="false" />
-            <element signature="e#10843#24938#0" expanded="false" />
-            <element signature="e#25728#26688#0" expanded="false" />
-            <element signature="e#26775#27413#0" expanded="false" />
+            <element signature="e#36261#36425#0" expanded="false" />
+            <element signature="e#39703#39772#0" expanded="false" />
+            <element signature="e#39819#40012#0" expanded="false" />
+            <element signature="e#40069#40220#0" expanded="false" />
+            <element signature="e#40275#40429#0" expanded="false" />
+            <element signature="e#40455#40578#0" expanded="false" />
+            <element signature="e#40961#41083#0" expanded="false" />
+            <element signature="e#41232#43065#0" expanded="false" />
+            <element signature="e#43169#45002#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -338,12 +355,15 @@
             <element signature="e#303#422#0" expanded="false" />
             <element signature="e#364#409#0" expanded="false" />
             <element signature="e#544#601#0" expanded="false" />
-            <element signature="e#1843#1862#0" expanded="false" />
-            <element signature="e#2193#8840#0" expanded="false" />
-            <element signature="e#2223#2301#0" expanded="false" />
-            <element signature="e#10843#24938#0" expanded="false" />
-            <element signature="e#25728#26688#0" expanded="false" />
-            <element signature="e#26775#27413#0" expanded="false" />
+            <element signature="e#36261#36425#0" expanded="false" />
+            <element signature="e#39703#39772#0" expanded="false" />
+            <element signature="e#39819#40012#0" expanded="false" />
+            <element signature="e#40069#40220#0" expanded="false" />
+            <element signature="e#40275#40429#0" expanded="false" />
+            <element signature="e#40455#40578#0" expanded="false" />
+            <element signature="e#40961#41083#0" expanded="false" />
+            <element signature="e#41232#43065#0" expanded="false" />
+            <element signature="e#43169#45002#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -373,8 +393,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/fb_reaction_box.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2374">
-          <caret line="616" column="53" lean-forward="false" selection-start-line="616" selection-start-column="53" selection-end-line="616" selection-end-column="53" />
+        <state relative-caret-position="616">
+          <caret line="266" column="46" lean-forward="false" selection-start-line="266" selection-start-column="46" selection-end-line="266" selection-end-column="46" />
           <folding>
             <element signature="e#172#502#0" expanded="false" />
             <element signature="e#223#500#0" expanded="false" />
@@ -383,12 +403,15 @@
             <element signature="e#303#422#0" expanded="false" />
             <element signature="e#364#409#0" expanded="false" />
             <element signature="e#544#601#0" expanded="false" />
-            <element signature="e#1843#1862#0" expanded="false" />
-            <element signature="e#2193#8840#0" expanded="false" />
-            <element signature="e#2223#2301#0" expanded="false" />
-            <element signature="e#10843#24938#0" expanded="false" />
-            <element signature="e#25728#26688#0" expanded="false" />
-            <element signature="e#26775#27413#0" expanded="false" />
+            <element signature="e#36261#36425#0" expanded="false" />
+            <element signature="e#39703#39772#0" expanded="false" />
+            <element signature="e#39819#40012#0" expanded="false" />
+            <element signature="e#40069#40220#0" expanded="false" />
+            <element signature="e#40275#40429#0" expanded="false" />
+            <element signature="e#40455#40578#0" expanded="false" />
+            <element signature="e#40961#41083#0" expanded="false" />
+            <element signature="e#41232#43065#0" expanded="false" />
+            <element signature="e#43169#45002#0" expanded="false" />
           </folding>
         </state>
       </provider>

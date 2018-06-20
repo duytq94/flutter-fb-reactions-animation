@@ -352,7 +352,6 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    timeDilation = 1.0;
     return new GestureDetector(
       child: new Column(
         children: <Widget>[

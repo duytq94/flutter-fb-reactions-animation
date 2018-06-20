@@ -265,7 +265,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
           // Just a top space
           new Container(
             width: double.infinity,
-            height: 150.0,
+            height: 100.0,
           ),
 
           // main content
@@ -542,9 +542,9 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                       ),
                       width: 300.0,
                       height: 250.0,
-                      margin: new EdgeInsets.only(left: this.moveRightGroupIcon.value),
+                      margin: new EdgeInsets.only(left: this.moveRightGroupIcon.value, top: 50.0),
                       color: Colors.amber.withOpacity(0.5),
-                    )
+                    ),
                   ],
                   alignment: Alignment.bottomCenter,
                 ),
@@ -604,11 +604,24 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                     color: Colors.white,
                     border: new Border.all(color: Colors.grey[400]),
                   ),
-                  margin: new EdgeInsets.only(top: 140.0),
+                  margin: new EdgeInsets.only(top: 190.0),
+                ),
+
+                // Icons when jump
+                new Container(
+                  child: new Image.asset(
+                    'images/like.gif',
+                    width: 20.0,
+                    height: 20.0,
+                  ),
+                  margin: new EdgeInsets.only(top: 100.0, left: 30.0),
                 ),
               ],
             ),
             margin: new EdgeInsets.only(left: 20.0, right: 20.0),
+            decoration: new BoxDecoration(border: Border.all(color: Colors.grey)),
+            width: double.infinity,
+            height: 350.0,
           ),
         ],
       ),

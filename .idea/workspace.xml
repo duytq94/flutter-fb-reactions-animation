@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62524fa3-85c5-4935-a19e-fddd900d4f3e" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/lib/fb_reaction_box.dart" afterPath="$PROJECT_DIR$/lib/fb_reaction_box.dart" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" afterPath="$PROJECT_DIR$/pubspec.lock" />
     </list>
     <ignored path="$PROJECT_DIR$/.dart_tool/" />
     <ignored path="$PROJECT_DIR$/.idea/" />
@@ -20,8 +23,8 @@
       <file leaf-file-name="fb_reaction_box.dart" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/fb_reaction_box.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="616">
-              <caret line="266" column="46" lean-forward="false" selection-start-line="266" selection-start-column="46" selection-end-line="266" selection-end-column="46" />
+            <state relative-caret-position="2320">
+              <caret line="870" column="57" lean-forward="false" selection-start-line="870" selection-start-column="57" selection-end-line="870" selection-end-column="57" />
               <folding>
                 <element signature="e#172#502#0" expanded="false" />
                 <element signature="e#223#500#0" expanded="false" />
@@ -30,15 +33,16 @@
                 <element signature="e#303#422#0" expanded="false" />
                 <element signature="e#364#409#0" expanded="false" />
                 <element signature="e#544#601#0" expanded="false" />
-                <element signature="e#36261#36425#0" expanded="false" />
-                <element signature="e#39703#39772#0" expanded="false" />
-                <element signature="e#39819#40012#0" expanded="false" />
-                <element signature="e#40069#40220#0" expanded="false" />
-                <element signature="e#40275#40429#0" expanded="false" />
-                <element signature="e#40455#40578#0" expanded="false" />
-                <element signature="e#40961#41083#0" expanded="false" />
-                <element signature="e#41232#43065#0" expanded="false" />
-                <element signature="e#43169#45002#0" expanded="false" />
+                <element signature="e#2706#11579#0" expanded="false" />
+                <element signature="e#37862#38026#0" expanded="false" />
+                <element signature="e#41304#41373#0" expanded="false" />
+                <element signature="e#41420#41613#0" expanded="false" />
+                <element signature="e#41670#41821#0" expanded="false" />
+                <element signature="e#41876#42030#0" expanded="false" />
+                <element signature="e#42056#42179#0" expanded="false" />
+                <element signature="e#42562#42684#0" expanded="false" />
+                <element signature="e#42833#44666#0" expanded="false" />
+                <element signature="e#44770#46603#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -53,12 +57,14 @@
       <find>whichIconUserChosen</find>
       <find>moveIconWhenRelease</find>
       <find>moveLeftIconWhenRelease</find>
+      <find>getTextButton</find>
     </findStrings>
     <replaceStrings>
       <replace>durationAnimationIconWhenDrag</replace>
       <replace>whichIconUserChoose</replace>
       <replace>moveUpIconWhenRelease</replace>
       <replace>moveLeftIconLikeWhenRelease</replace>
+      <replace>getTextBtn</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -104,36 +110,31 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="facebook_reaction_animation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="facebook_reaction_animation" type="462c0819:PsiDirectoryNode" />
+              <item name="facebook-reaction-animation" type="b2602c69:ProjectViewProjectNode" />
+              <item name="facebook-reaction-animation" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="facebook_reaction_animation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="facebook_reaction_animation" type="462c0819:PsiDirectoryNode" />
+              <item name="facebook-reaction-animation" type="b2602c69:ProjectViewProjectNode" />
+              <item name="facebook-reaction-animation" type="462c0819:PsiDirectoryNode" />
               <item name="lib" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="facebook_reaction_animation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="facebook_reaction_animation" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
         <option name="show-excluded-files" value="false" />
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../nc_flutter_util" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="show.migrate.to.gradle.popup" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
@@ -268,7 +269,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Dart Analysis" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32890365" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32890365" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Flutter Outline" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -297,11 +298,44 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/fb_reaction_box.dart</url>
+          <line>618</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="3" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/lib/fb_reaction_box.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#172#502#0" expanded="false" />
+            <element signature="e#223#500#0" expanded="false" />
+            <element signature="e#248#495#0" expanded="false" />
+            <element signature="e#276#462#0" expanded="false" />
+            <element signature="e#303#422#0" expanded="false" />
+            <element signature="e#364#409#0" expanded="false" />
+            <element signature="e#544#601#0" expanded="false" />
+            <element signature="e#2706#11579#0" expanded="false" />
+            <element signature="e#37862#38026#0" expanded="false" />
+            <element signature="e#41304#41373#0" expanded="false" />
+            <element signature="e#41420#41613#0" expanded="false" />
+            <element signature="e#41670#41821#0" expanded="false" />
+            <element signature="e#41876#42030#0" expanded="false" />
+            <element signature="e#42056#42179#0" expanded="false" />
+            <element signature="e#42562#42684#0" expanded="false" />
+            <element signature="e#42833#44666#0" expanded="false" />
+            <element signature="e#44770#46603#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/lib/main.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -322,15 +356,16 @@
             <element signature="e#303#422#0" expanded="false" />
             <element signature="e#364#409#0" expanded="false" />
             <element signature="e#544#601#0" expanded="false" />
-            <element signature="e#36261#36425#0" expanded="false" />
-            <element signature="e#39703#39772#0" expanded="false" />
-            <element signature="e#39819#40012#0" expanded="false" />
-            <element signature="e#40069#40220#0" expanded="false" />
-            <element signature="e#40275#40429#0" expanded="false" />
-            <element signature="e#40455#40578#0" expanded="false" />
-            <element signature="e#40961#41083#0" expanded="false" />
-            <element signature="e#41232#43065#0" expanded="false" />
-            <element signature="e#43169#45002#0" expanded="false" />
+            <element signature="e#2706#11579#0" expanded="false" />
+            <element signature="e#37862#38026#0" expanded="false" />
+            <element signature="e#41304#41373#0" expanded="false" />
+            <element signature="e#41420#41613#0" expanded="false" />
+            <element signature="e#41670#41821#0" expanded="false" />
+            <element signature="e#41876#42030#0" expanded="false" />
+            <element signature="e#42056#42179#0" expanded="false" />
+            <element signature="e#42562#42684#0" expanded="false" />
+            <element signature="e#42833#44666#0" expanded="false" />
+            <element signature="e#44770#46603#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -355,15 +390,16 @@
             <element signature="e#303#422#0" expanded="false" />
             <element signature="e#364#409#0" expanded="false" />
             <element signature="e#544#601#0" expanded="false" />
-            <element signature="e#36261#36425#0" expanded="false" />
-            <element signature="e#39703#39772#0" expanded="false" />
-            <element signature="e#39819#40012#0" expanded="false" />
-            <element signature="e#40069#40220#0" expanded="false" />
-            <element signature="e#40275#40429#0" expanded="false" />
-            <element signature="e#40455#40578#0" expanded="false" />
-            <element signature="e#40961#41083#0" expanded="false" />
-            <element signature="e#41232#43065#0" expanded="false" />
-            <element signature="e#43169#45002#0" expanded="false" />
+            <element signature="e#2706#11579#0" expanded="false" />
+            <element signature="e#37862#38026#0" expanded="false" />
+            <element signature="e#41304#41373#0" expanded="false" />
+            <element signature="e#41420#41613#0" expanded="false" />
+            <element signature="e#41670#41821#0" expanded="false" />
+            <element signature="e#41876#42030#0" expanded="false" />
+            <element signature="e#42056#42179#0" expanded="false" />
+            <element signature="e#42562#42684#0" expanded="false" />
+            <element signature="e#42833#44666#0" expanded="false" />
+            <element signature="e#44770#46603#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -387,14 +423,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="401">
           <caret line="34" column="22" lean-forward="true" selection-start-line="34" selection-start-column="22" selection-end-line="34" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/fb_reaction_box.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="616">
-          <caret line="266" column="46" lean-forward="false" selection-start-line="266" selection-start-column="46" selection-end-line="266" selection-end-column="46" />
+        <state relative-caret-position="2320">
+          <caret line="870" column="57" lean-forward="false" selection-start-line="870" selection-start-column="57" selection-end-line="870" selection-end-column="57" />
           <folding>
             <element signature="e#172#502#0" expanded="false" />
             <element signature="e#223#500#0" expanded="false" />
@@ -403,15 +438,16 @@
             <element signature="e#303#422#0" expanded="false" />
             <element signature="e#364#409#0" expanded="false" />
             <element signature="e#544#601#0" expanded="false" />
-            <element signature="e#36261#36425#0" expanded="false" />
-            <element signature="e#39703#39772#0" expanded="false" />
-            <element signature="e#39819#40012#0" expanded="false" />
-            <element signature="e#40069#40220#0" expanded="false" />
-            <element signature="e#40275#40429#0" expanded="false" />
-            <element signature="e#40455#40578#0" expanded="false" />
-            <element signature="e#40961#41083#0" expanded="false" />
-            <element signature="e#41232#43065#0" expanded="false" />
-            <element signature="e#43169#45002#0" expanded="false" />
+            <element signature="e#2706#11579#0" expanded="false" />
+            <element signature="e#37862#38026#0" expanded="false" />
+            <element signature="e#41304#41373#0" expanded="false" />
+            <element signature="e#41420#41613#0" expanded="false" />
+            <element signature="e#41670#41821#0" expanded="false" />
+            <element signature="e#41876#42030#0" expanded="false" />
+            <element signature="e#42056#42179#0" expanded="false" />
+            <element signature="e#42562#42684#0" expanded="false" />
+            <element signature="e#42833#44666#0" expanded="false" />
+            <element signature="e#44770#46603#0" expanded="false" />
           </folding>
         </state>
       </provider>

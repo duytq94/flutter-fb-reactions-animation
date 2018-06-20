@@ -29,7 +29,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
   int durationAnimationBtnLongPress = 150;
   int durationAnimationBtnShortPress = 500;
   int durationAnimationIconWhenDrag = 150;
-  int durationAnimationIconWhenRelease = 800;
+  int durationAnimationIconWhenRelease = 1000;
 
   // For long press btn
   AnimationController animControlBtnLongPress, animControlBox;
@@ -628,11 +628,11 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                           new Transform.scale(
                             child: new Transform.rotate(
                               child: new Image.asset(
-                                !isLongPress && isLiked ? 'images/ic_like_fill.png' : 'images/ic_like.png',
+                                getImageIconBtn(),
                                 width: 25.0,
                                 height: 25.0,
                                 fit: BoxFit.contain,
-                                color: !isLongPress && isLiked ? new Color(0xff3b5998) : Colors.grey,
+                                color: getTintColorIconBtn(),
                               ),
                               angle: !isLongPress
                                   ? handleOutputRangeTiltIconLike(tiltIconLikeInBtn2.value)
@@ -646,9 +646,9 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                           // Text like
                           new Transform.scale(
                             child: new Text(
-                              'Like',
+                              getTextBtn(),
                               style: new TextStyle(
-                                color: !isLongPress && isLiked ? new Color(0xff3b5998) : Colors.grey,
+                                color: getColorTextBtn(),
                                 fontSize: 14.0,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -715,7 +715,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                     ? new Container(
                         child: Transform.scale(
                           child: new Image.asset(
-                            'images/love.gif',
+                            'images/haha.gif',
                             width: 40.0,
                             height: 40.0,
                           ),
@@ -793,6 +793,86 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
       onHorizontalDragEnd: onHorizontalDragEndBoxIcon,
       onHorizontalDragUpdate: onHorizontalDragUpdateBoxIcon,
     );
+  }
+
+  String getTextBtn() {
+    if (isDragging) {
+      return 'Like';
+    }
+    switch (whichIconUserChoose) {
+      case 1:
+        return 'Like';
+      case 2:
+        return 'Love';
+      case 3:
+        return 'Haha';
+      case 4:
+        return 'Wow';
+      case 5:
+        return 'Sad';
+      case 6:
+        return 'Angry';
+      default:
+        return 'Like';
+    }
+  }
+
+  Color getColorTextBtn() {
+    if ((!isLongPress && isLiked)) {
+      return Color(0xff3b5998);
+    } else if (!isDragging) {
+      switch (whichIconUserChoose) {
+        case 1:
+          return Color(0xff3b5998);
+        case 2:
+          return Color(0xffED5167);
+        case 3:
+        case 4:
+        case 5:
+          return Color(0xffFFD96A);
+        case 6:
+          return Color(0xffF6876B);
+        default:
+          return Colors.grey;
+      }
+    } else {
+      return Colors.grey;
+    }
+  }
+
+  String getImageIconBtn() {
+    if (!isLongPress && isLiked) {
+      return 'images/ic_like_fill.png';
+    } else if (!isDragging) {
+      switch (whichIconUserChoose) {
+        case 1:
+          return 'images/ic_like_fill.png';
+        case 2:
+          return 'images/love2.png';
+        case 3:
+          return 'images/haha2.png';
+        case 4:
+          return 'images/wow2.png';
+        case 5:
+          return 'images/sad2.png';
+        case 6:
+          return 'images/angry2.png';
+        default:
+          return 'images/ic_like.png';
+      }
+    } else {
+      return 'images/ic_like.png';
+    }
+  }
+
+  Color getTintColorIconBtn() {
+    if (!isLongPress && isLiked) {
+      return new Color(0xff3b5998);
+    } else if (!isDragging && whichIconUserChoose != 0) {
+      return null;
+    } else {
+      return Colors.grey;
+    }
   }
 
   double processTopPosition(double value) {

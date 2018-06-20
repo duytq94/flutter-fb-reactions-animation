@@ -33,6 +33,11 @@ flutter:
     - images/wow.gif
     - images/sad.gif
     - images/angry.gif
+    - images/angry2.png
+    - images/love2.png
+    - images/haha2.png
+    - images/wow2.png
+    - images/sad2.png
     - images/ic_like.png
     - images/ic_like_fill.png
 

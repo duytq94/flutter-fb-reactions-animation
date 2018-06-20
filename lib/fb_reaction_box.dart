@@ -1009,10 +1009,14 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
     holdTimer = new Timer.periodic(durationLongPress, showBox);
   }
 
-  // when user short press
+  // when user short press the button
   void onTapBtn() {
     if (!isLongPress) {
-      isLiked = !isLiked;
+      if (whichIconUserChoose == 0) {
+        isLiked = !isLiked;
+      } else {
+        whichIconUserChoose = 0;
+      }
       if (isLiked) {
         animControlBtnShortPress.forward();
       } else {

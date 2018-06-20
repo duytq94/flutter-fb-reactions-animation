@@ -83,7 +83,29 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    // ------------------------------- Button Like -------------------------------
+    // Button Like
+    initAnimationBtnLike();
+
+    // Box and Icons
+    initAnimationBoxAndIcons();
+
+    // Icon when drag
+    initAnimationIconWhenDrag();
+
+    // Icon when drag outside
+    initAnimationIconWhenDragOutside();
+
+    // Box when drag outside
+    initAnimationBoxWhenDragOutside();
+
+    // Icon when first drag
+    initAnimationIconWhenFirstDrag();
+
+    // Icon when release
+    initAnimationIconWhenRelease();
+  }
+
+  initAnimationBtnLike() {
     // long press
     animControlBtnLongPress =
         new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationBtnLongPress));
@@ -113,8 +135,9 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
     tiltIconLikeInBtn2.addListener(() {
       setState(() {});
     });
+  }
 
-    // ------------------------------- Box and Icons -------------------------------
+  initAnimationBoxAndIcons() {
     animControlBox = new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationBox));
 
     // General
@@ -212,8 +235,9 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
     zoomIconAngry.addListener(() {
       setState(() {});
     });
+  }
 
-    // ------------------------------- Icon when drag -------------------------------
+  initAnimationIconWhenDrag() {
     animControlIconWhenDrag =
         new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationIconWhenDrag));
 
@@ -230,24 +254,27 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
     zoomBoxIcon.addListener(() {
       setState(() {});
     });
+  }
 
-    // ------------------------------- Icon when drag outside -------------------------------
+  initAnimationIconWhenDragOutside() {
     animControlIconWhenDragOutside =
         new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationIconWhenDrag));
     zoomIconWhenDragOutside = new Tween(begin: 0.8, end: 1.0).animate(animControlIconWhenDragOutside);
     zoomIconWhenDragOutside.addListener(() {
       setState(() {});
     });
+  }
 
-    // ------------------------------- Box when drag outside -------------------------------
+  initAnimationBoxWhenDragOutside() {
     animControlBoxWhenDragOutside =
         new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationIconWhenDrag));
     zoomBoxWhenDragOutside = new Tween(begin: 40.0, end: 50.0).animate(animControlBoxWhenDragOutside);
     zoomBoxWhenDragOutside.addListener(() {
       setState(() {});
     });
+  }
 
-    // ------------------------------- Icon when first drag -------------------------------
+  initAnimationIconWhenFirstDrag() {
     animControlIconWhenFirstDrag =
         new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationIconWhenDrag));
     zoomIconWhenFirstDrag = new Tween(begin: 1.0, end: 0.8).animate(animControlIconWhenFirstDrag);
@@ -259,8 +286,9 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
         isFirstDragging = false;
       }
     });
+  }
 
-    // ------------------------------- Icon when release -------------------------------
+  initAnimationIconWhenRelease() {
     animControlIconWhenRelease =
         new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationIconWhenRelease));
 

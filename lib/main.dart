@@ -9,7 +9,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
         title: 'Welcome to Flutter',
-        theme: new ThemeData(primaryColor: Colors.amber, accentColor: Colors.amber),
+        theme: new ThemeData(primaryColor: new Color(0xff3b5998), accentColor: new Color(0xff3b5998)),
         debugShowCheckedModeBanner: false,
         home: new Scaffold(
             appBar: new AppBar(
@@ -39,9 +39,9 @@ class MainScreenState extends State<MainScreen> {
       timeDelay = value;
       for (int i = 0; i < 5; i++) {
         if (i == index) {
-          btnColors[i] = Colors.purple;
+          btnColors[i] = new Color(0xff3b5998);
         } else {
-          btnColors[i] = Colors.amber;
+          btnColors[i] = new Color(0xffDAA520);
         }
       }
     });
@@ -51,9 +51,9 @@ class MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     for (int i = 0; i < 5; i++) {
-      btnColors[i] = Colors.amber;
+      btnColors[i] = new Color(0xffDAA520);
     }
-    btnColors[0] = Colors.purple;
+    btnColors[0] = new Color(0xff3b5998);
   }
 
   @override
@@ -164,8 +164,8 @@ class MainScreenState extends State<MainScreen> {
         ),
         width: 270.0,
       ),
-      color: new Color(0xff03a9f4),
-      highlightColor: new Color(0xffbae3fa),
+      color: new Color(0xff3b5998),
+      highlightColor: new Color(0xff1E90FF),
       padding: new EdgeInsets.all(12.0),
     );
   }

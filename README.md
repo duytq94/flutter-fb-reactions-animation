@@ -1,8 +1,11 @@
-# facebook_reaction_animation
+# Facebook Reactions Animation
 
-Facebook reaction animation with Flutter
+## Description:
+* The app to demo animation with flutter by implement Facebook reactions. 
+* Watch the video demo to clearly: https://youtu.be/gLdr9GCtZXg
+* Check my general guidance to know more and how to do it:
+https://medium.com/@duytq94/facebook-reactions-with-flutter-9019ce8b95b8
 
-## Getting Started
+## Screenshot:
 
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
+<img src="https://raw.githubusercontent.com/duytq94/facebook-reaction-animation/master/screenshots/FacenbookReactionsAnimation.gif" height="50%" width="50%">

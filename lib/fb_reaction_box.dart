@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:audioplayer/audioplayer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'dart:ui' as ui;
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 
 class FbReactionBox extends StatelessWidget {
   @override
@@ -25,6 +27,8 @@ class FbReaction extends StatefulWidget {
 }
 
 class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
+  AudioPlayer audioPlayer;
+
   int durationAnimationBox = 500;
   int durationAnimationBtnLongPress = 150;
   int durationAnimationBtnShortPress = 500;
@@ -82,6 +86,8 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
+    audioPlayer = new AudioPlayer();
 
     // Button Like
     initAnimationBtnLike();
@@ -1017,6 +1023,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
         whichIconUserChoose = 0;
       }
       if (isLiked) {
+        playSound('short_press_like.mp3');
         animControlBtnShortPress.forward();
       } else {
         animControlBtnShortPress.reverse();
@@ -1045,6 +1052,8 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
   }
 
   void showBox(Timer t) {
+    playSound('box_up.mp3');
+    print('aaaaaaa');
     isLongPress = true;
 
     animControlBtnLongPress.forward();
@@ -1168,5 +1177,15 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
     zoomIconAngry = new Tween(begin: 0.0, end: 1.0).animate(
       new CurvedAnimation(parent: animControlBox, curve: new Interval(0.5, 1.0)),
     );
+  }
+
+  Future playSound(String nameSound) async {
+    final file = new File('${(await getTemporaryDirectory()).path}/$nameSound');
+    await file.writeAsBytes((await loadAsset(nameSound)).buffer.asUint8List());
+    await audioPlayer.play(file.path, isLocal: true);
+  }
+
+  Future loadAsset(String nameSound) async {
+    return await rootBundle.load('sounds/$nameSound');
   }
 }

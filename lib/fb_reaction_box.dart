@@ -1011,7 +1011,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
   }
 
   void onTapDownBtn(TapDownDetails tapDownDetail) {
-    holdTimer = new Timer.periodic(durationLongPress, showBox);
+    holdTimer = new Timer(durationLongPress, showBox);
   }
 
   // when user short press the button
@@ -1051,9 +1051,8 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
     }
   }
 
-  void showBox(Timer t) {
+  void showBox() {
     playSound('box_up.mp3');
-    print('aaaaaaa');
     isLongPress = true;
 
     animControlBtnLongPress.forward();

@@ -147,7 +147,7 @@ class MainScreenState extends State<MainScreen> {
           new Container(
             height: 15.0,
           ),
-          buildButton(context, 'Restaurant animation screen', new FbReactionBox())
+          buildButton(context, 'Facebook reactions animation', new FbReactionBox())
         ],
       )),
     );

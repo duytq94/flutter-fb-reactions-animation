@@ -497,7 +497,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
               ],
             ),
             margin: new EdgeInsets.only(left: 20.0, right: 20.0),
-            // Area of the content
+            // Area of the content can drag
             // decoration: new BoxDecoration(border: Border.all(color: Colors.grey)),
             width: double.infinity,
             height: 350.0,

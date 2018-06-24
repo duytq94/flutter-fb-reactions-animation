@@ -8,7 +8,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-        title: 'Welcome to Flutter',
+        title: 'Facebook Reactions by Flutter',
         theme: new ThemeData(primaryColor: new Color(0xff3b5998), accentColor: new Color(0xff3b5998)),
         debugShowCheckedModeBanner: false,
         home: new Scaffold(
@@ -165,7 +165,7 @@ class MainScreenState extends State<MainScreen> {
         width: 270.0,
       ),
       color: new Color(0xff3b5998),
-      highlightColor: new Color(0xff1E90FF),
+      highlightColor: new Color(0xff8b9dc3),
       padding: new EdgeInsets.all(12.0),
     );
   }

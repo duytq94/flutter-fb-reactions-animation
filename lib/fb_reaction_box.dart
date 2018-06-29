@@ -46,7 +46,6 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
   // For short press btn
   AnimationController animControlBtnShortPress;
   Animation zoomIconLikeInBtn2, tiltIconLikeInBtn2;
-  Animation zoomBoxIcon;
 
   // For zoom icon when drag
   AnimationController animControlIconWhenDrag;
@@ -57,6 +56,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
   Animation zoomIconWhenDragOutside;
   Animation zoomIconWhenFirstDrag;
   Animation zoomBoxWhenDragOutside;
+  Animation zoomBoxIcon;
 
   // For jump icon when release
   AnimationController animControlIconWhenRelease;

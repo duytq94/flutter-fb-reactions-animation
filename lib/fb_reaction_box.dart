@@ -49,7 +49,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
 
   // For zoom icon when drag
   AnimationController animControlIconWhenDrag;
-  AnimationController animControlIconWhenFirstDrag;
+  AnimationController animControlIconWhenDragInside;
   AnimationController animControlIconWhenDragOutside;
   AnimationController animControlBoxWhenDragOutside;
   Animation zoomIconChosen, zoomIconNotChosen;
@@ -281,13 +281,13 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
   }
 
   initAnimationIconWhenFirstDrag() {
-    animControlIconWhenFirstDrag =
+    animControlIconWhenDragInside =
         new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationIconWhenDrag));
-    zoomIconWhenFirstDrag = new Tween(begin: 1.0, end: 0.8).animate(animControlIconWhenFirstDrag);
+    zoomIconWhenFirstDrag = new Tween(begin: 1.0, end: 0.8).animate(animControlIconWhenDragInside);
     zoomIconWhenFirstDrag.addListener(() {
       setState(() {});
     });
-    animControlIconWhenFirstDrag.addStatusListener((status) {
+    animControlIconWhenDragInside.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         isFirstDragging = false;
       }
@@ -350,7 +350,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
     animControlBtnLongPress.dispose();
     animControlBox.dispose();
     animControlIconWhenDrag.dispose();
-    animControlIconWhenFirstDrag.dispose();
+    animControlIconWhenDragInside.dispose();
     animControlIconWhenDragOutside.dispose();
     animControlBoxWhenDragOutside.dispose();
     animControlIconWhenRelease.dispose();
@@ -967,9 +967,9 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
       isDragging = true;
       isDraggingOutside = false;
 
-      if (isFirstDragging && !animControlIconWhenFirstDrag.isAnimating) {
-        animControlIconWhenFirstDrag.reset();
-        animControlIconWhenFirstDrag.forward();
+      if (isFirstDragging && !animControlIconWhenDragInside.isAnimating) {
+        animControlIconWhenDragInside.reset();
+        animControlIconWhenDragInside.forward();
       }
 
       if (dragUpdateDetail.globalPosition.dx >= 20 && dragUpdateDetail.globalPosition.dx < 83) {

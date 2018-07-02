@@ -114,7 +114,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
   initAnimationBtnLike() {
     // long press
     animControlBtnLongPress =
-    new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationBtnLongPress));
+        new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationBtnLongPress));
     zoomIconLikeInBtn = new Tween(begin: 1.0, end: 0.85).animate(animControlBtnLongPress);
     tiltIconLikeInBtn = new Tween(begin: 0.0, end: 0.2).animate(animControlBtnLongPress);
     zoomTextLikeInBtn = new Tween(begin: 1.0, end: 0.85).animate(animControlBtnLongPress);
@@ -131,7 +131,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
 
     // short press
     animControlBtnShortPress =
-    new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationBtnShortPress));
+        new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationBtnShortPress));
     zoomIconLikeInBtn2 = new Tween(begin: 1.0, end: 0.2).animate(animControlBtnShortPress);
     tiltIconLikeInBtn2 = new Tween(begin: 0.0, end: 0.8).animate(animControlBtnShortPress);
 
@@ -245,7 +245,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
 
   initAnimationIconWhenDrag() {
     animControlIconWhenDrag =
-    new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationIconWhenDrag));
+        new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationIconWhenDrag));
 
     zoomIconChosen = new Tween(begin: 1.0, end: 1.8).animate(animControlIconWhenDrag);
     zoomIconNotChosen = new Tween(begin: 1.0, end: 0.8).animate(animControlIconWhenDrag);
@@ -264,7 +264,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
 
   initAnimationIconWhenDragOutside() {
     animControlIconWhenDragOutside =
-    new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationIconWhenDrag));
+        new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationIconWhenDrag));
     zoomIconWhenDragOutside = new Tween(begin: 0.8, end: 1.0).animate(animControlIconWhenDragOutside);
     zoomIconWhenDragOutside.addListener(() {
       setState(() {});
@@ -273,7 +273,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
 
   initAnimationBoxWhenDragOutside() {
     animControlBoxWhenDragOutside =
-    new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationIconWhenDrag));
+        new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationIconWhenDrag));
     zoomBoxWhenDragOutside = new Tween(begin: 40.0, end: 50.0).animate(animControlBoxWhenDragOutside);
     zoomBoxWhenDragOutside.addListener(() {
       setState(() {});
@@ -282,7 +282,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
 
   initAnimationIconWhenDragInside() {
     animControlIconWhenDragInside =
-    new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationIconWhenDrag));
+        new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationIconWhenDrag));
     zoomIconWhenDragInside = new Tween(begin: 1.0, end: 0.8).animate(animControlIconWhenDragInside);
     zoomIconWhenDragInside.addListener(() {
       setState(() {});
@@ -296,7 +296,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
 
   initAnimationIconWhenRelease() {
     animControlIconWhenRelease =
-    new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationIconWhenRelease));
+        new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationIconWhenRelease));
 
     zoomIconWhenRelease = new Tween(begin: 1.8, end: 0.0)
         .animate(new CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
@@ -390,109 +390,109 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                 // Icon like
                 whichIconUserChoose == 1 && !isDragging
                     ? new Container(
-                  child: Transform.scale(
-                    child: new Image.asset(
-                      'images/like.gif',
-                      width: 40.0,
-                      height: 40.0,
-                    ),
-                    scale: this.zoomIconWhenRelease.value,
-                  ),
-                  margin: new EdgeInsets.only(
-                    top: processTopPosition(this.moveUpIconWhenRelease.value),
-                    left: this.moveLeftIconLikeWhenRelease.value,
-                  ),
-                )
+                        child: Transform.scale(
+                          child: new Image.asset(
+                            'images/like.gif',
+                            width: 40.0,
+                            height: 40.0,
+                          ),
+                          scale: this.zoomIconWhenRelease.value,
+                        ),
+                        margin: new EdgeInsets.only(
+                          top: processTopPosition(this.moveUpIconWhenRelease.value),
+                          left: this.moveLeftIconLikeWhenRelease.value,
+                        ),
+                      )
                     : new Container(),
 
                 // Icon love
                 whichIconUserChoose == 2 && !isDragging
                     ? new Container(
-                  child: Transform.scale(
-                    child: new Image.asset(
-                      'images/love.gif',
-                      width: 40.0,
-                      height: 40.0,
-                    ),
-                    scale: this.zoomIconWhenRelease.value,
-                  ),
-                  margin: new EdgeInsets.only(
-                    top: processTopPosition(this.moveUpIconWhenRelease.value),
-                    left: this.moveLeftIconLoveWhenRelease.value,
-                  ),
-                )
+                        child: Transform.scale(
+                          child: new Image.asset(
+                            'images/love.gif',
+                            width: 40.0,
+                            height: 40.0,
+                          ),
+                          scale: this.zoomIconWhenRelease.value,
+                        ),
+                        margin: new EdgeInsets.only(
+                          top: processTopPosition(this.moveUpIconWhenRelease.value),
+                          left: this.moveLeftIconLoveWhenRelease.value,
+                        ),
+                      )
                     : new Container(),
 
                 // Icon haha
                 whichIconUserChoose == 3 && !isDragging
                     ? new Container(
-                  child: Transform.scale(
-                    child: new Image.asset(
-                      'images/haha.gif',
-                      width: 40.0,
-                      height: 40.0,
-                    ),
-                    scale: this.zoomIconWhenRelease.value,
-                  ),
-                  margin: new EdgeInsets.only(
-                    top: processTopPosition(this.moveUpIconWhenRelease.value),
-                    left: this.moveLeftIconHahaWhenRelease.value,
-                  ),
-                )
+                        child: Transform.scale(
+                          child: new Image.asset(
+                            'images/haha.gif',
+                            width: 40.0,
+                            height: 40.0,
+                          ),
+                          scale: this.zoomIconWhenRelease.value,
+                        ),
+                        margin: new EdgeInsets.only(
+                          top: processTopPosition(this.moveUpIconWhenRelease.value),
+                          left: this.moveLeftIconHahaWhenRelease.value,
+                        ),
+                      )
                     : new Container(),
 
                 // Icon Wow
                 whichIconUserChoose == 4 && !isDragging
                     ? new Container(
-                  child: Transform.scale(
-                    child: new Image.asset(
-                      'images/wow.gif',
-                      width: 40.0,
-                      height: 40.0,
-                    ),
-                    scale: this.zoomIconWhenRelease.value,
-                  ),
-                  margin: new EdgeInsets.only(
-                    top: processTopPosition(this.moveUpIconWhenRelease.value),
-                    left: this.moveLeftIconWowWhenRelease.value,
-                  ),
-                )
+                        child: Transform.scale(
+                          child: new Image.asset(
+                            'images/wow.gif',
+                            width: 40.0,
+                            height: 40.0,
+                          ),
+                          scale: this.zoomIconWhenRelease.value,
+                        ),
+                        margin: new EdgeInsets.only(
+                          top: processTopPosition(this.moveUpIconWhenRelease.value),
+                          left: this.moveLeftIconWowWhenRelease.value,
+                        ),
+                      )
                     : new Container(),
 
                 // Icon sad
                 whichIconUserChoose == 5 && !isDragging
                     ? new Container(
-                  child: Transform.scale(
-                    child: new Image.asset(
-                      'images/sad.gif',
-                      width: 40.0,
-                      height: 40.0,
-                    ),
-                    scale: this.zoomIconWhenRelease.value,
-                  ),
-                  margin: new EdgeInsets.only(
-                    top: processTopPosition(this.moveUpIconWhenRelease.value),
-                    left: this.moveLeftIconSadWhenRelease.value,
-                  ),
-                )
+                        child: Transform.scale(
+                          child: new Image.asset(
+                            'images/sad.gif',
+                            width: 40.0,
+                            height: 40.0,
+                          ),
+                          scale: this.zoomIconWhenRelease.value,
+                        ),
+                        margin: new EdgeInsets.only(
+                          top: processTopPosition(this.moveUpIconWhenRelease.value),
+                          left: this.moveLeftIconSadWhenRelease.value,
+                        ),
+                      )
                     : new Container(),
 
                 // Icon angry
                 whichIconUserChoose == 6 && !isDragging
                     ? new Container(
-                  child: Transform.scale(
-                    child: new Image.asset(
-                      'images/angry.gif',
-                      width: 40.0,
-                      height: 40.0,
-                    ),
-                    scale: this.zoomIconWhenRelease.value,
-                  ),
-                  margin: new EdgeInsets.only(
-                    top: processTopPosition(this.moveUpIconWhenRelease.value),
-                    left: this.moveLeftIconAngryWhenRelease.value,
-                  ),
-                )
+                        child: Transform.scale(
+                          child: new Image.asset(
+                            'images/angry.gif',
+                            width: 40.0,
+                            height: 40.0,
+                          ),
+                          scale: this.zoomIconWhenRelease.value,
+                        ),
+                        margin: new EdgeInsets.only(
+                          top: processTopPosition(this.moveUpIconWhenRelease.value),
+                          left: this.moveLeftIconAngryWhenRelease.value,
+                        ),
+                      )
                     : new Container(),
               ],
             ),
@@ -545,15 +545,15 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                 children: <Widget>[
                   currentIconFocus == 1
                       ? new Container(
-                    child: new Text(
-                      'Like',
-                      style: new TextStyle(fontSize: 8.0, color: Colors.white),
-                    ),
-                    decoration: new BoxDecoration(
-                        borderRadius: new BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
-                    padding: new EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
-                    margin: new EdgeInsets.only(bottom: 8.0),
-                  )
+                          child: new Text(
+                            'Like',
+                            style: new TextStyle(fontSize: 8.0, color: Colors.white),
+                          ),
+                          decoration: new BoxDecoration(
+                              borderRadius: new BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
+                          padding: new EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
+                          margin: new EdgeInsets.only(bottom: 8.0),
+                        )
                       : new Container(),
                   new Image.asset(
                     'images/like.gif',
@@ -569,10 +569,10 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
             ),
             scale: isDragging
                 ? (currentIconFocus == 1
-                ? this.zoomIconChosen.value
-                : (previousIconFocus == 1
-                ? this.zoomIconNotChosen.value
-                : isJustDragInside ? this.zoomIconWhenDragInside.value : 0.8))
+                    ? this.zoomIconChosen.value
+                    : (previousIconFocus == 1
+                        ? this.zoomIconNotChosen.value
+                        : isJustDragInside ? this.zoomIconWhenDragInside.value : 0.8))
                 : isDraggingOutside ? this.zoomIconWhenDragOutside.value : this.zoomIconLike.value,
           ),
 
@@ -583,15 +583,15 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                 children: <Widget>[
                   currentIconFocus == 2
                       ? new Container(
-                    child: new Text(
-                      'Love',
-                      style: new TextStyle(fontSize: 8.0, color: Colors.white),
-                    ),
-                    decoration: new BoxDecoration(
-                        borderRadius: new BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
-                    padding: new EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
-                    margin: new EdgeInsets.only(bottom: 8.0),
-                  )
+                          child: new Text(
+                            'Love',
+                            style: new TextStyle(fontSize: 8.0, color: Colors.white),
+                          ),
+                          decoration: new BoxDecoration(
+                              borderRadius: new BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
+                          padding: new EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
+                          margin: new EdgeInsets.only(bottom: 8.0),
+                        )
                       : new Container(),
                   new Image.asset(
                     'images/love.gif',
@@ -607,10 +607,10 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
             ),
             scale: isDragging
                 ? (currentIconFocus == 2
-                ? this.zoomIconChosen.value
-                : (previousIconFocus == 2
-                ? this.zoomIconNotChosen.value
-                : isJustDragInside ? this.zoomIconWhenDragInside.value : 0.8))
+                    ? this.zoomIconChosen.value
+                    : (previousIconFocus == 2
+                        ? this.zoomIconNotChosen.value
+                        : isJustDragInside ? this.zoomIconWhenDragInside.value : 0.8))
                 : isDraggingOutside ? this.zoomIconWhenDragOutside.value : this.zoomIconLove.value,
           ),
 
@@ -621,15 +621,15 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                 children: <Widget>[
                   currentIconFocus == 3
                       ? new Container(
-                    child: new Text(
-                      'Haha',
-                      style: new TextStyle(fontSize: 8.0, color: Colors.white),
-                    ),
-                    decoration: new BoxDecoration(
-                        borderRadius: new BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
-                    padding: new EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
-                    margin: new EdgeInsets.only(bottom: 8.0),
-                  )
+                          child: new Text(
+                            'Haha',
+                            style: new TextStyle(fontSize: 8.0, color: Colors.white),
+                          ),
+                          decoration: new BoxDecoration(
+                              borderRadius: new BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
+                          padding: new EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
+                          margin: new EdgeInsets.only(bottom: 8.0),
+                        )
                       : new Container(),
                   new Image.asset(
                     'images/haha.gif',
@@ -645,10 +645,10 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
             ),
             scale: isDragging
                 ? (currentIconFocus == 3
-                ? this.zoomIconChosen.value
-                : (previousIconFocus == 3
-                ? this.zoomIconNotChosen.value
-                : isJustDragInside ? this.zoomIconWhenDragInside.value : 0.8))
+                    ? this.zoomIconChosen.value
+                    : (previousIconFocus == 3
+                        ? this.zoomIconNotChosen.value
+                        : isJustDragInside ? this.zoomIconWhenDragInside.value : 0.8))
                 : isDraggingOutside ? this.zoomIconWhenDragOutside.value : this.zoomIconHaha.value,
           ),
 
@@ -659,15 +659,15 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                 children: <Widget>[
                   currentIconFocus == 4
                       ? new Container(
-                    child: new Text(
-                      'Wow',
-                      style: new TextStyle(fontSize: 8.0, color: Colors.white),
-                    ),
-                    decoration: new BoxDecoration(
-                        borderRadius: new BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
-                    padding: new EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
-                    margin: new EdgeInsets.only(bottom: 8.0),
-                  )
+                          child: new Text(
+                            'Wow',
+                            style: new TextStyle(fontSize: 8.0, color: Colors.white),
+                          ),
+                          decoration: new BoxDecoration(
+                              borderRadius: new BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
+                          padding: new EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
+                          margin: new EdgeInsets.only(bottom: 8.0),
+                        )
                       : new Container(),
                   new Image.asset(
                     'images/wow.gif',
@@ -683,10 +683,10 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
             ),
             scale: isDragging
                 ? (currentIconFocus == 4
-                ? this.zoomIconChosen.value
-                : (previousIconFocus == 4
-                ? this.zoomIconNotChosen.value
-                : isJustDragInside ? this.zoomIconWhenDragInside.value : 0.8))
+                    ? this.zoomIconChosen.value
+                    : (previousIconFocus == 4
+                        ? this.zoomIconNotChosen.value
+                        : isJustDragInside ? this.zoomIconWhenDragInside.value : 0.8))
                 : isDraggingOutside ? this.zoomIconWhenDragOutside.value : this.zoomIconWow.value,
           ),
 
@@ -697,15 +697,15 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                 children: <Widget>[
                   currentIconFocus == 5
                       ? new Container(
-                    child: new Text(
-                      'Sad',
-                      style: new TextStyle(fontSize: 8.0, color: Colors.white),
-                    ),
-                    decoration: new BoxDecoration(
-                        borderRadius: new BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
-                    padding: new EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
-                    margin: new EdgeInsets.only(bottom: 8.0),
-                  )
+                          child: new Text(
+                            'Sad',
+                            style: new TextStyle(fontSize: 8.0, color: Colors.white),
+                          ),
+                          decoration: new BoxDecoration(
+                              borderRadius: new BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
+                          padding: new EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
+                          margin: new EdgeInsets.only(bottom: 8.0),
+                        )
                       : new Container(),
                   new Image.asset(
                     'images/sad.gif',
@@ -721,10 +721,10 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
             ),
             scale: isDragging
                 ? (currentIconFocus == 5
-                ? this.zoomIconChosen.value
-                : (previousIconFocus == 5
-                ? this.zoomIconNotChosen.value
-                : isJustDragInside ? this.zoomIconWhenDragInside.value : 0.8))
+                    ? this.zoomIconChosen.value
+                    : (previousIconFocus == 5
+                        ? this.zoomIconNotChosen.value
+                        : isJustDragInside ? this.zoomIconWhenDragInside.value : 0.8))
                 : isDraggingOutside ? this.zoomIconWhenDragOutside.value : this.zoomIconSad.value,
           ),
 
@@ -735,15 +735,15 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                 children: <Widget>[
                   currentIconFocus == 6
                       ? new Container(
-                    child: new Text(
-                      'Angry',
-                      style: new TextStyle(fontSize: 8.0, color: Colors.white),
-                    ),
-                    decoration: new BoxDecoration(
-                        borderRadius: new BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
-                    padding: new EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
-                    margin: new EdgeInsets.only(bottom: 8.0),
-                  )
+                          child: new Text(
+                            'Angry',
+                            style: new TextStyle(fontSize: 8.0, color: Colors.white),
+                          ),
+                          decoration: new BoxDecoration(
+                              borderRadius: new BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
+                          padding: new EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
+                          margin: new EdgeInsets.only(bottom: 8.0),
+                        )
                       : new Container(),
                   new Image.asset(
                     'images/angry.gif',
@@ -759,10 +759,10 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
             ),
             scale: isDragging
                 ? (currentIconFocus == 6
-                ? this.zoomIconChosen.value
-                : (previousIconFocus == 6
-                ? this.zoomIconNotChosen.value
-                : isJustDragInside ? this.zoomIconWhenDragInside.value : 0.8))
+                    ? this.zoomIconChosen.value
+                    : (previousIconFocus == 6
+                        ? this.zoomIconNotChosen.value
+                        : isJustDragInside ? this.zoomIconWhenDragInside.value : 0.8))
                 : isDraggingOutside ? this.zoomIconWhenDragOutside.value : this.zoomIconAngry.value,
           ),
         ],
@@ -797,10 +797,10 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                     color: getTintColorIconBtn(),
                   ),
                   angle:
-                  !isLongPress ? handleOutputRangeTiltIconLike(tiltIconLikeInBtn2.value) : tiltIconLikeInBtn.value,
+                      !isLongPress ? handleOutputRangeTiltIconLike(tiltIconLikeInBtn2.value) : tiltIconLikeInBtn.value,
                 ),
                 scale:
-                !isLongPress ? handleOutputRangeZoomInIconLike(zoomIconLikeInBtn2.value) : zoomIconLikeInBtn.value,
+                    !isLongPress ? handleOutputRangeZoomInIconLike(zoomIconLikeInBtn2.value) : zoomIconLikeInBtn.value,
               ),
 
               // Text like
@@ -814,7 +814,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                   ),
                 ),
                 scale:
-                !isLongPress ? handleOutputRangeZoomInIconLike(zoomIconLikeInBtn2.value) : zoomTextLikeInBtn.value,
+                    !isLongPress ? handleOutputRangeZoomInIconLike(zoomIconLikeInBtn2.value) : zoomTextLikeInBtn.value,
               ),
             ],
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -966,7 +966,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
     if (dragUpdateDetail.globalPosition.dy >= 200 && dragUpdateDetail.globalPosition.dy <= 500) {
       isDragging = true;
       isDraggingOutside = false;
-      print(isJustDragInside);
+
       if (isJustDragInside && !animControlIconWhenDragInside.isAnimating) {
         animControlIconWhenDragInside.reset();
         animControlIconWhenDragInside.forward();

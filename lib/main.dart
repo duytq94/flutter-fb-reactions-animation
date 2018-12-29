@@ -31,8 +31,6 @@ class MainScreenState extends State<MainScreen> {
   static List<double> timeDelays = [1.0, 2.0, 3.0, 4.0, 5.0];
   int selectedIndex = 0;
 
-  TextEditingController editingController = new TextEditingController();
-
   onSpeedSettingPress(int index) {
     timeDilation = timeDelays[index];
     setState(() {

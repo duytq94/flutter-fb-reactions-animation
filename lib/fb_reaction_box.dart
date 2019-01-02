@@ -9,21 +9,21 @@ import 'package:path_provider/path_provider.dart';
 class FbReactionBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        appBar: new AppBar(
-          title: new Text(
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(
             'FB REACTION',
-            style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
           ),
           centerTitle: true,
         ),
-        body: new FbReaction());
+        body: FbReaction());
   }
 }
 
 class FbReaction extends StatefulWidget {
   @override
-  createState() => new FbReactionState();
+  createState() => FbReactionState();
 }
 
 class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
@@ -68,7 +68,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
       moveLeftIconSadWhenRelease,
       moveLeftIconAngryWhenRelease;
 
-  Duration durationLongPress = new Duration(milliseconds: 250);
+  Duration durationLongPress = Duration(milliseconds: 250);
   Timer holdTimer;
   bool isLongPress = false;
   bool isLiked = false;
@@ -87,7 +87,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    audioPlayer = new AudioPlayer();
+    audioPlayer = AudioPlayer();
 
     // Button Like
     initAnimationBtnLike();
@@ -114,10 +114,10 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
   initAnimationBtnLike() {
     // long press
     animControlBtnLongPress =
-        new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationBtnLongPress));
-    zoomIconLikeInBtn = new Tween(begin: 1.0, end: 0.85).animate(animControlBtnLongPress);
-    tiltIconLikeInBtn = new Tween(begin: 0.0, end: 0.2).animate(animControlBtnLongPress);
-    zoomTextLikeInBtn = new Tween(begin: 1.0, end: 0.85).animate(animControlBtnLongPress);
+        AnimationController(vsync: this, duration: Duration(milliseconds: durationAnimationBtnLongPress));
+    zoomIconLikeInBtn = Tween(begin: 1.0, end: 0.85).animate(animControlBtnLongPress);
+    tiltIconLikeInBtn = Tween(begin: 0.0, end: 0.2).animate(animControlBtnLongPress);
+    zoomTextLikeInBtn = Tween(begin: 1.0, end: 0.85).animate(animControlBtnLongPress);
 
     zoomIconLikeInBtn.addListener(() {
       setState(() {});
@@ -131,9 +131,9 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
 
     // short press
     animControlBtnShortPress =
-        new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationBtnShortPress));
-    zoomIconLikeInBtn2 = new Tween(begin: 1.0, end: 0.2).animate(animControlBtnShortPress);
-    tiltIconLikeInBtn2 = new Tween(begin: 0.0, end: 0.8).animate(animControlBtnShortPress);
+        AnimationController(vsync: this, duration: Duration(milliseconds: durationAnimationBtnShortPress));
+    zoomIconLikeInBtn2 = Tween(begin: 1.0, end: 0.2).animate(animControlBtnShortPress);
+    tiltIconLikeInBtn2 = Tween(begin: 0.0, end: 0.8).animate(animControlBtnShortPress);
 
     zoomIconLikeInBtn2.addListener(() {
       setState(() {});
@@ -144,65 +144,65 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
   }
 
   initAnimationBoxAndIcons() {
-    animControlBox = new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationBox));
+    animControlBox = AnimationController(vsync: this, duration: Duration(milliseconds: durationAnimationBox));
 
     // General
-    moveRightGroupIcon = new Tween(begin: 0.0, end: 10.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.0, 1.0)),
+    moveRightGroupIcon = Tween(begin: 0.0, end: 10.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.0, 1.0)),
     );
     moveRightGroupIcon.addListener(() {
       setState(() {});
     });
 
     // Box
-    fadeInBox = new Tween(begin: 0.0, end: 1.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.7, 1.0)),
+    fadeInBox = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.7, 1.0)),
     );
     fadeInBox.addListener(() {
       setState(() {});
     });
 
     // Icons
-    pushIconLikeUp = new Tween(begin: 30.0, end: 60.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.0, 0.5)),
+    pushIconLikeUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.0, 0.5)),
     );
-    zoomIconLike = new Tween(begin: 0.0, end: 1.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.0, 0.5)),
-    );
-
-    pushIconLoveUp = new Tween(begin: 30.0, end: 60.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.1, 0.6)),
-    );
-    zoomIconLove = new Tween(begin: 0.0, end: 1.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.1, 0.6)),
+    zoomIconLike = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.0, 0.5)),
     );
 
-    pushIconHahaUp = new Tween(begin: 30.0, end: 60.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.2, 0.7)),
+    pushIconLoveUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.1, 0.6)),
     );
-    zoomIconHaha = new Tween(begin: 0.0, end: 1.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.2, 0.7)),
-    );
-
-    pushIconWowUp = new Tween(begin: 30.0, end: 60.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.3, 0.8)),
-    );
-    zoomIconWow = new Tween(begin: 0.0, end: 1.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.3, 0.8)),
+    zoomIconLove = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.1, 0.6)),
     );
 
-    pushIconSadUp = new Tween(begin: 30.0, end: 60.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.4, 0.9)),
+    pushIconHahaUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.2, 0.7)),
     );
-    zoomIconSad = new Tween(begin: 0.0, end: 1.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.4, 0.9)),
+    zoomIconHaha = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.2, 0.7)),
     );
 
-    pushIconAngryUp = new Tween(begin: 30.0, end: 60.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.5, 1.0)),
+    pushIconWowUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.3, 0.8)),
     );
-    zoomIconAngry = new Tween(begin: 0.0, end: 1.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.5, 1.0)),
+    zoomIconWow = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.3, 0.8)),
+    );
+
+    pushIconSadUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.4, 0.9)),
+    );
+    zoomIconSad = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.4, 0.9)),
+    );
+
+    pushIconAngryUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.5, 1.0)),
+    );
+    zoomIconAngry = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.5, 1.0)),
     );
 
     pushIconLikeUp.addListener(() {
@@ -245,11 +245,11 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
 
   initAnimationIconWhenDrag() {
     animControlIconWhenDrag =
-        new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationIconWhenDrag));
+        AnimationController(vsync: this, duration: Duration(milliseconds: durationAnimationIconWhenDrag));
 
-    zoomIconChosen = new Tween(begin: 1.0, end: 1.8).animate(animControlIconWhenDrag);
-    zoomIconNotChosen = new Tween(begin: 1.0, end: 0.8).animate(animControlIconWhenDrag);
-    zoomBoxIcon = new Tween(begin: 50.0, end: 40.0).animate(animControlIconWhenDrag);
+    zoomIconChosen = Tween(begin: 1.0, end: 1.8).animate(animControlIconWhenDrag);
+    zoomIconNotChosen = Tween(begin: 1.0, end: 0.8).animate(animControlIconWhenDrag);
+    zoomBoxIcon = Tween(begin: 50.0, end: 40.0).animate(animControlIconWhenDrag);
 
     zoomIconChosen.addListener(() {
       setState(() {});
@@ -264,8 +264,8 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
 
   initAnimationIconWhenDragOutside() {
     animControlIconWhenDragOutside =
-        new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationIconWhenDrag));
-    zoomIconWhenDragOutside = new Tween(begin: 0.8, end: 1.0).animate(animControlIconWhenDragOutside);
+        AnimationController(vsync: this, duration: Duration(milliseconds: durationAnimationIconWhenDrag));
+    zoomIconWhenDragOutside = Tween(begin: 0.8, end: 1.0).animate(animControlIconWhenDragOutside);
     zoomIconWhenDragOutside.addListener(() {
       setState(() {});
     });
@@ -273,8 +273,8 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
 
   initAnimationBoxWhenDragOutside() {
     animControlBoxWhenDragOutside =
-        new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationIconWhenDrag));
-    zoomBoxWhenDragOutside = new Tween(begin: 40.0, end: 50.0).animate(animControlBoxWhenDragOutside);
+        AnimationController(vsync: this, duration: Duration(milliseconds: durationAnimationIconWhenDrag));
+    zoomBoxWhenDragOutside = Tween(begin: 40.0, end: 50.0).animate(animControlBoxWhenDragOutside);
     zoomBoxWhenDragOutside.addListener(() {
       setState(() {});
     });
@@ -282,8 +282,8 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
 
   initAnimationIconWhenDragInside() {
     animControlIconWhenDragInside =
-        new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationIconWhenDrag));
-    zoomIconWhenDragInside = new Tween(begin: 1.0, end: 0.8).animate(animControlIconWhenDragInside);
+        AnimationController(vsync: this, duration: Duration(milliseconds: durationAnimationIconWhenDrag));
+    zoomIconWhenDragInside = Tween(begin: 1.0, end: 0.8).animate(animControlIconWhenDragInside);
     zoomIconWhenDragInside.addListener(() {
       setState(() {});
     });
@@ -296,26 +296,26 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
 
   initAnimationIconWhenRelease() {
     animControlIconWhenRelease =
-        new AnimationController(vsync: this, duration: new Duration(milliseconds: durationAnimationIconWhenRelease));
+        AnimationController(vsync: this, duration: Duration(milliseconds: durationAnimationIconWhenRelease));
 
-    zoomIconWhenRelease = new Tween(begin: 1.8, end: 0.0)
-        .animate(new CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
+    zoomIconWhenRelease = Tween(begin: 1.8, end: 0.0)
+        .animate(CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
 
-    moveUpIconWhenRelease = new Tween(begin: 180.0, end: 0.0)
-        .animate(new CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
+    moveUpIconWhenRelease = Tween(begin: 180.0, end: 0.0)
+        .animate(CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
 
-    moveLeftIconLikeWhenRelease = new Tween(begin: 20.0, end: 10.0)
-        .animate(new CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
-    moveLeftIconLoveWhenRelease = new Tween(begin: 68.0, end: 10.0)
-        .animate(new CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
-    moveLeftIconHahaWhenRelease = new Tween(begin: 116.0, end: 10.0)
-        .animate(new CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
-    moveLeftIconWowWhenRelease = new Tween(begin: 164.0, end: 10.0)
-        .animate(new CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
-    moveLeftIconSadWhenRelease = new Tween(begin: 212.0, end: 10.0)
-        .animate(new CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
-    moveLeftIconAngryWhenRelease = new Tween(begin: 260.0, end: 10.0)
-        .animate(new CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
+    moveLeftIconLikeWhenRelease = Tween(begin: 20.0, end: 10.0)
+        .animate(CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
+    moveLeftIconLoveWhenRelease = Tween(begin: 68.0, end: 10.0)
+        .animate(CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
+    moveLeftIconHahaWhenRelease = Tween(begin: 116.0, end: 10.0)
+        .animate(CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
+    moveLeftIconWowWhenRelease = Tween(begin: 164.0, end: 10.0)
+        .animate(CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
+    moveLeftIconSadWhenRelease = Tween(begin: 212.0, end: 10.0)
+        .animate(CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
+    moveLeftIconAngryWhenRelease = Tween(begin: 260.0, end: 10.0)
+        .animate(CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
 
     zoomIconWhenRelease.addListener(() {
       setState(() {});
@@ -358,21 +358,21 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return new GestureDetector(
-      child: new Column(
+    return GestureDetector(
+      child: Column(
         children: <Widget>[
           // Just a top space
-          new Container(
+          Container(
             width: double.infinity,
             height: 100.0,
           ),
 
           // main content
-          new Container(
-            child: new Stack(
+          Container(
+            child: Stack(
               children: <Widget>[
                 // Box and icons
-                new Stack(
+                Stack(
                   children: <Widget>[
                     // Box
                     renderBox(),
@@ -389,116 +389,116 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                 // Icons when jump
                 // Icon like
                 whichIconUserChoose == 1 && !isDragging
-                    ? new Container(
+                    ? Container(
                         child: Transform.scale(
-                          child: new Image.asset(
+                          child: Image.asset(
                             'images/like.gif',
                             width: 40.0,
                             height: 40.0,
                           ),
                           scale: this.zoomIconWhenRelease.value,
                         ),
-                        margin: new EdgeInsets.only(
+                        margin: EdgeInsets.only(
                           top: processTopPosition(this.moveUpIconWhenRelease.value),
                           left: this.moveLeftIconLikeWhenRelease.value,
                         ),
                       )
-                    : new Container(),
+                    : Container(),
 
                 // Icon love
                 whichIconUserChoose == 2 && !isDragging
-                    ? new Container(
+                    ? Container(
                         child: Transform.scale(
-                          child: new Image.asset(
+                          child: Image.asset(
                             'images/love.gif',
                             width: 40.0,
                             height: 40.0,
                           ),
                           scale: this.zoomIconWhenRelease.value,
                         ),
-                        margin: new EdgeInsets.only(
+                        margin: EdgeInsets.only(
                           top: processTopPosition(this.moveUpIconWhenRelease.value),
                           left: this.moveLeftIconLoveWhenRelease.value,
                         ),
                       )
-                    : new Container(),
+                    : Container(),
 
                 // Icon haha
                 whichIconUserChoose == 3 && !isDragging
-                    ? new Container(
+                    ? Container(
                         child: Transform.scale(
-                          child: new Image.asset(
+                          child: Image.asset(
                             'images/haha.gif',
                             width: 40.0,
                             height: 40.0,
                           ),
                           scale: this.zoomIconWhenRelease.value,
                         ),
-                        margin: new EdgeInsets.only(
+                        margin: EdgeInsets.only(
                           top: processTopPosition(this.moveUpIconWhenRelease.value),
                           left: this.moveLeftIconHahaWhenRelease.value,
                         ),
                       )
-                    : new Container(),
+                    : Container(),
 
                 // Icon Wow
                 whichIconUserChoose == 4 && !isDragging
-                    ? new Container(
+                    ? Container(
                         child: Transform.scale(
-                          child: new Image.asset(
+                          child: Image.asset(
                             'images/wow.gif',
                             width: 40.0,
                             height: 40.0,
                           ),
                           scale: this.zoomIconWhenRelease.value,
                         ),
-                        margin: new EdgeInsets.only(
+                        margin: EdgeInsets.only(
                           top: processTopPosition(this.moveUpIconWhenRelease.value),
                           left: this.moveLeftIconWowWhenRelease.value,
                         ),
                       )
-                    : new Container(),
+                    : Container(),
 
                 // Icon sad
                 whichIconUserChoose == 5 && !isDragging
-                    ? new Container(
+                    ? Container(
                         child: Transform.scale(
-                          child: new Image.asset(
+                          child: Image.asset(
                             'images/sad.gif',
                             width: 40.0,
                             height: 40.0,
                           ),
                           scale: this.zoomIconWhenRelease.value,
                         ),
-                        margin: new EdgeInsets.only(
+                        margin: EdgeInsets.only(
                           top: processTopPosition(this.moveUpIconWhenRelease.value),
                           left: this.moveLeftIconSadWhenRelease.value,
                         ),
                       )
-                    : new Container(),
+                    : Container(),
 
                 // Icon angry
                 whichIconUserChoose == 6 && !isDragging
-                    ? new Container(
+                    ? Container(
                         child: Transform.scale(
-                          child: new Image.asset(
+                          child: Image.asset(
                             'images/angry.gif',
                             width: 40.0,
                             height: 40.0,
                           ),
                           scale: this.zoomIconWhenRelease.value,
                         ),
-                        margin: new EdgeInsets.only(
+                        margin: EdgeInsets.only(
                           top: processTopPosition(this.moveUpIconWhenRelease.value),
                           left: this.moveLeftIconAngryWhenRelease.value,
                         ),
                       )
-                    : new Container(),
+                    : Container(),
               ],
             ),
-            margin: new EdgeInsets.only(left: 20.0, right: 20.0),
+            margin: EdgeInsets.only(left: 20.0, right: 20.0),
             // Area of the content can drag
-            // decoration: new BoxDecoration(border: Border.all(color: Colors.grey)),
+            // decoration:  BoxDecoration(border: Border.all(color: Colors.grey)),
             width: double.infinity,
             height: 350.0,
           ),
@@ -510,52 +510,52 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
   }
 
   Widget renderBox() {
-    return new Opacity(
-      child: new Container(
-        decoration: new BoxDecoration(
+    return Opacity(
+      child: Container(
+        decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: new BorderRadius.circular(30.0),
-          border: new Border.all(color: Colors.grey[300], width: 0.3),
+          borderRadius: BorderRadius.circular(30.0),
+          border: Border.all(color: Colors.grey[300], width: 0.3),
           boxShadow: [
-            new BoxShadow(
+            BoxShadow(
                 color: Colors.grey,
                 blurRadius: 5.0,
                 // LTRB
-                offset: Offset.lerp(new Offset(0.0, 0.0), new Offset(0.0, 0.5), 10.0)),
+                offset: Offset.lerp(Offset(0.0, 0.0), Offset(0.0, 0.5), 10.0)),
           ],
         ),
         width: 300.0,
         height: isDragging
             ? (previousIconFocus == 0 ? this.zoomBoxIcon.value : 40.0)
             : isDraggingOutside ? this.zoomBoxWhenDragOutside.value : 50.0,
-        margin: new EdgeInsets.only(bottom: 130.0, left: 10.0),
+        margin: EdgeInsets.only(bottom: 130.0, left: 10.0),
       ),
       opacity: this.fadeInBox.value,
     );
   }
 
   Widget renderIcons() {
-    return new Container(
-      child: new Row(
+    return Container(
+      child: Row(
         children: <Widget>[
           // icon like
-          new Transform.scale(
-            child: new Container(
-              child: new Column(
+          Transform.scale(
+            child: Container(
+              child: Column(
                 children: <Widget>[
                   currentIconFocus == 1
-                      ? new Container(
-                          child: new Text(
+                      ? Container(
+                          child: Text(
                             'Like',
-                            style: new TextStyle(fontSize: 8.0, color: Colors.white),
+                            style: TextStyle(fontSize: 8.0, color: Colors.white),
                           ),
-                          decoration: new BoxDecoration(
-                              borderRadius: new BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
-                          padding: new EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
-                          margin: new EdgeInsets.only(bottom: 8.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
+                          padding: EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
+                          margin: EdgeInsets.only(bottom: 8.0),
                         )
-                      : new Container(),
-                  new Image.asset(
+                      : Container(),
+                  Image.asset(
                     'images/like.gif',
                     width: 40.0,
                     height: 40.0,
@@ -563,7 +563,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                   ),
                 ],
               ),
-              margin: new EdgeInsets.only(bottom: pushIconLikeUp.value),
+              margin: EdgeInsets.only(bottom: pushIconLikeUp.value),
               width: 40.0,
               height: currentIconFocus == 1 ? 70.0 : 40.0,
             ),
@@ -577,23 +577,23 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
           ),
 
           // icon love
-          new Transform.scale(
-            child: new Container(
-              child: new Column(
+          Transform.scale(
+            child: Container(
+              child: Column(
                 children: <Widget>[
                   currentIconFocus == 2
-                      ? new Container(
-                          child: new Text(
+                      ? Container(
+                          child: Text(
                             'Love',
-                            style: new TextStyle(fontSize: 8.0, color: Colors.white),
+                            style: TextStyle(fontSize: 8.0, color: Colors.white),
                           ),
-                          decoration: new BoxDecoration(
-                              borderRadius: new BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
-                          padding: new EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
-                          margin: new EdgeInsets.only(bottom: 8.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
+                          padding: EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
+                          margin: EdgeInsets.only(bottom: 8.0),
                         )
-                      : new Container(),
-                  new Image.asset(
+                      : Container(),
+                  Image.asset(
                     'images/love.gif',
                     width: 40.0,
                     height: 40.0,
@@ -601,7 +601,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                   ),
                 ],
               ),
-              margin: new EdgeInsets.only(bottom: pushIconLoveUp.value),
+              margin: EdgeInsets.only(bottom: pushIconLoveUp.value),
               width: 40.0,
               height: currentIconFocus == 2 ? 70.0 : 40.0,
             ),
@@ -615,23 +615,23 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
           ),
 
           // icon haha
-          new Transform.scale(
-            child: new Container(
-              child: new Column(
+          Transform.scale(
+            child: Container(
+              child: Column(
                 children: <Widget>[
                   currentIconFocus == 3
-                      ? new Container(
-                          child: new Text(
+                      ? Container(
+                          child: Text(
                             'Haha',
-                            style: new TextStyle(fontSize: 8.0, color: Colors.white),
+                            style: TextStyle(fontSize: 8.0, color: Colors.white),
                           ),
-                          decoration: new BoxDecoration(
-                              borderRadius: new BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
-                          padding: new EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
-                          margin: new EdgeInsets.only(bottom: 8.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
+                          padding: EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
+                          margin: EdgeInsets.only(bottom: 8.0),
                         )
-                      : new Container(),
-                  new Image.asset(
+                      : Container(),
+                  Image.asset(
                     'images/haha.gif',
                     width: 40.0,
                     height: 40.0,
@@ -639,7 +639,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                   ),
                 ],
               ),
-              margin: new EdgeInsets.only(bottom: pushIconHahaUp.value),
+              margin: EdgeInsets.only(bottom: pushIconHahaUp.value),
               width: 40.0,
               height: currentIconFocus == 3 ? 70.0 : 40.0,
             ),
@@ -653,23 +653,23 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
           ),
 
           // icon wow
-          new Transform.scale(
-            child: new Container(
-              child: new Column(
+          Transform.scale(
+            child: Container(
+              child: Column(
                 children: <Widget>[
                   currentIconFocus == 4
-                      ? new Container(
-                          child: new Text(
+                      ? Container(
+                          child: Text(
                             'Wow',
-                            style: new TextStyle(fontSize: 8.0, color: Colors.white),
+                            style: TextStyle(fontSize: 8.0, color: Colors.white),
                           ),
-                          decoration: new BoxDecoration(
-                              borderRadius: new BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
-                          padding: new EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
-                          margin: new EdgeInsets.only(bottom: 8.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
+                          padding: EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
+                          margin: EdgeInsets.only(bottom: 8.0),
                         )
-                      : new Container(),
-                  new Image.asset(
+                      : Container(),
+                  Image.asset(
                     'images/wow.gif',
                     width: 40.0,
                     height: 40.0,
@@ -677,7 +677,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                   ),
                 ],
               ),
-              margin: new EdgeInsets.only(bottom: pushIconWowUp.value),
+              margin: EdgeInsets.only(bottom: pushIconWowUp.value),
               width: 40.0,
               height: currentIconFocus == 4 ? 70.0 : 40.0,
             ),
@@ -691,23 +691,23 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
           ),
 
           // icon sad
-          new Transform.scale(
-            child: new Container(
-              child: new Column(
+          Transform.scale(
+            child: Container(
+              child: Column(
                 children: <Widget>[
                   currentIconFocus == 5
-                      ? new Container(
-                          child: new Text(
+                      ? Container(
+                          child: Text(
                             'Sad',
-                            style: new TextStyle(fontSize: 8.0, color: Colors.white),
+                            style: TextStyle(fontSize: 8.0, color: Colors.white),
                           ),
-                          decoration: new BoxDecoration(
-                              borderRadius: new BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
-                          padding: new EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
-                          margin: new EdgeInsets.only(bottom: 8.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
+                          padding: EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
+                          margin: EdgeInsets.only(bottom: 8.0),
                         )
-                      : new Container(),
-                  new Image.asset(
+                      : Container(),
+                  Image.asset(
                     'images/sad.gif',
                     width: 40.0,
                     height: 40.0,
@@ -715,7 +715,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                   ),
                 ],
               ),
-              margin: new EdgeInsets.only(bottom: pushIconSadUp.value),
+              margin: EdgeInsets.only(bottom: pushIconSadUp.value),
               width: 40.0,
               height: currentIconFocus == 5 ? 70.0 : 40.0,
             ),
@@ -729,23 +729,23 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
           ),
 
           // icon angry
-          new Transform.scale(
-            child: new Container(
-              child: new Column(
+          Transform.scale(
+            child: Container(
+              child: Column(
                 children: <Widget>[
                   currentIconFocus == 6
-                      ? new Container(
-                          child: new Text(
+                      ? Container(
+                          child: Text(
                             'Angry',
-                            style: new TextStyle(fontSize: 8.0, color: Colors.white),
+                            style: TextStyle(fontSize: 8.0, color: Colors.white),
                           ),
-                          decoration: new BoxDecoration(
-                              borderRadius: new BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
-                          padding: new EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
-                          margin: new EdgeInsets.only(bottom: 8.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
+                          padding: EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
+                          margin: EdgeInsets.only(bottom: 8.0),
                         )
-                      : new Container(),
-                  new Image.asset(
+                      : Container(),
+                  Image.asset(
                     'images/angry.gif',
                     width: 40.0,
                     height: 40.0,
@@ -753,7 +753,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                   ),
                 ],
               ),
-              margin: new EdgeInsets.only(bottom: pushIconAngryUp.value),
+              margin: EdgeInsets.only(bottom: pushIconAngryUp.value),
               width: 40.0,
               height: currentIconFocus == 6 ? 70.0 : 40.0,
             ),
@@ -771,25 +771,25 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
       ),
       width: 300.0,
       height: 250.0,
-      margin: new EdgeInsets.only(left: this.moveRightGroupIcon.value, top: 50.0),
+      margin: EdgeInsets.only(left: this.moveRightGroupIcon.value, top: 50.0),
       // uncomment here to see area of draggable
       // color: Colors.amber.withOpacity(0.5),
     );
   }
 
   Widget renderBtnLike() {
-    return new Container(
-      child: new GestureDetector(
+    return Container(
+      child: GestureDetector(
         onTapDown: onTapDownBtn,
         onTapUp: onTapUpBtn,
         onTap: onTapBtn,
-        child: new Container(
-          child: new Row(
+        child: Container(
+          child: Row(
             children: <Widget>[
               // Icon like
-              new Transform.scale(
-                child: new Transform.rotate(
-                  child: new Image.asset(
+              Transform.scale(
+                child: Transform.rotate(
+                  child: Image.asset(
                     getImageIconBtn(),
                     width: 25.0,
                     height: 25.0,
@@ -804,10 +804,10 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
               ),
 
               // Text like
-              new Transform.scale(
-                child: new Text(
+              Transform.scale(
+                child: Text(
                   getTextBtn(),
-                  style: new TextStyle(
+                  style: TextStyle(
                     color: getColorTextBtn(),
                     fontSize: 14.0,
                     fontWeight: FontWeight.bold,
@@ -819,17 +819,17 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
             ],
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           ),
-          padding: new EdgeInsets.all(10.0),
+          padding: EdgeInsets.all(10.0),
           color: Colors.transparent,
         ),
       ),
       width: 100.0,
-      decoration: new BoxDecoration(
-        borderRadius: new BorderRadius.circular(4.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4.0),
         color: Colors.white,
-        border: new Border.all(color: getColorBorderBtn()),
+        border: Border.all(color: getColorBorderBtn()),
       ),
-      margin: new EdgeInsets.only(top: 190.0),
+      margin: EdgeInsets.only(top: 190.0),
     );
   }
 
@@ -905,7 +905,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
 
   Color getTintColorIconBtn() {
     if (!isLongPress && isLiked) {
-      return new Color(0xff3b5998);
+      return Color(0xff3b5998);
     } else if (!isDragging && whichIconUserChoose != 0) {
       return null;
     } else {
@@ -1024,7 +1024,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
   }
 
   void onTapDownBtn(TapDownDetails tapDownDetail) {
-    holdTimer = new Timer(durationLongPress, showBox);
+    holdTimer = Timer(durationLongPress, showBox);
   }
 
   void onTapUpBtn(TapUpDetails tapUpDetail) {
@@ -1036,7 +1036,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
       }
     }
 
-    new Timer(new Duration(milliseconds: durationAnimationBox), () {
+    Timer(Duration(milliseconds: durationAnimationBox), () {
       isLongPress = false;
     });
 
@@ -1102,99 +1102,99 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
   // the angry-icon will be pulled down first, not the like-icon
   void setReverseValue() {
     // Icons
-    pushIconLikeUp = new Tween(begin: 30.0, end: 60.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.5, 1.0)),
+    pushIconLikeUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.5, 1.0)),
     );
-    zoomIconLike = new Tween(begin: 0.0, end: 1.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.5, 1.0)),
-    );
-
-    pushIconLoveUp = new Tween(begin: 30.0, end: 60.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.4, 0.9)),
-    );
-    zoomIconLove = new Tween(begin: 0.0, end: 1.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.4, 0.9)),
+    zoomIconLike = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.5, 1.0)),
     );
 
-    pushIconHahaUp = new Tween(begin: 30.0, end: 60.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.3, 0.8)),
+    pushIconLoveUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.4, 0.9)),
     );
-    zoomIconHaha = new Tween(begin: 0.0, end: 1.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.3, 0.8)),
-    );
-
-    pushIconWowUp = new Tween(begin: 30.0, end: 60.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.2, 0.7)),
-    );
-    zoomIconWow = new Tween(begin: 0.0, end: 1.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.2, 0.7)),
+    zoomIconLove = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.4, 0.9)),
     );
 
-    pushIconSadUp = new Tween(begin: 30.0, end: 60.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.1, 0.6)),
+    pushIconHahaUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.3, 0.8)),
     );
-    zoomIconSad = new Tween(begin: 0.0, end: 1.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.1, 0.6)),
+    zoomIconHaha = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.3, 0.8)),
     );
 
-    pushIconAngryUp = new Tween(begin: 30.0, end: 60.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.0, 0.5)),
+    pushIconWowUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.2, 0.7)),
     );
-    zoomIconAngry = new Tween(begin: 0.0, end: 1.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.0, 0.5)),
+    zoomIconWow = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.2, 0.7)),
+    );
+
+    pushIconSadUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.1, 0.6)),
+    );
+    zoomIconSad = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.1, 0.6)),
+    );
+
+    pushIconAngryUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.0, 0.5)),
+    );
+    zoomIconAngry = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.0, 0.5)),
     );
   }
 
   // When set the reverse value, we need set value to normal for the forward
   void setForwardValue() {
     // Icons
-    pushIconLikeUp = new Tween(begin: 30.0, end: 60.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.0, 0.5)),
+    pushIconLikeUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.0, 0.5)),
     );
-    zoomIconLike = new Tween(begin: 0.0, end: 1.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.0, 0.5)),
-    );
-
-    pushIconLoveUp = new Tween(begin: 30.0, end: 60.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.1, 0.6)),
-    );
-    zoomIconLove = new Tween(begin: 0.0, end: 1.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.1, 0.6)),
+    zoomIconLike = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.0, 0.5)),
     );
 
-    pushIconHahaUp = new Tween(begin: 30.0, end: 60.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.2, 0.7)),
+    pushIconLoveUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.1, 0.6)),
     );
-    zoomIconHaha = new Tween(begin: 0.0, end: 1.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.2, 0.7)),
-    );
-
-    pushIconWowUp = new Tween(begin: 30.0, end: 60.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.3, 0.8)),
-    );
-    zoomIconWow = new Tween(begin: 0.0, end: 1.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.3, 0.8)),
+    zoomIconLove = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.1, 0.6)),
     );
 
-    pushIconSadUp = new Tween(begin: 30.0, end: 60.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.4, 0.9)),
+    pushIconHahaUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.2, 0.7)),
     );
-    zoomIconSad = new Tween(begin: 0.0, end: 1.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.4, 0.9)),
+    zoomIconHaha = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.2, 0.7)),
     );
 
-    pushIconAngryUp = new Tween(begin: 30.0, end: 60.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.5, 1.0)),
+    pushIconWowUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.3, 0.8)),
     );
-    zoomIconAngry = new Tween(begin: 0.0, end: 1.0).animate(
-      new CurvedAnimation(parent: animControlBox, curve: new Interval(0.5, 1.0)),
+    zoomIconWow = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.3, 0.8)),
+    );
+
+    pushIconSadUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.4, 0.9)),
+    );
+    zoomIconSad = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.4, 0.9)),
+    );
+
+    pushIconAngryUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.5, 1.0)),
+    );
+    zoomIconAngry = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: animControlBox, curve: Interval(0.5, 1.0)),
     );
   }
 
   Future playSound(String nameSound) async {
-    // Sometimes multiple sound will play the same time, so we'll stop all before play the new
+    // Sometimes multiple sound will play the same time, so we'll stop all before play the
     await audioPlayer.stop();
-    final file = new File('${(await getTemporaryDirectory()).path}/$nameSound');
+    final file = File('${(await getTemporaryDirectory()).path}/$nameSound');
     await file.writeAsBytes((await loadAsset(nameSound)).buffer.asUint8List());
     await audioPlayer.play(file.path, isLocal: true);
   }

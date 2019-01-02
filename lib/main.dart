@@ -9,7 +9,9 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
         title: 'Facebook Reactions by Flutter',
-        theme: new ThemeData(primaryColor: new Color(0xff3b5998), accentColor: new Color(0xff3b5998)),
+        theme: new ThemeData(
+            primaryColor: new Color(0xff3b5998),
+            accentColor: new Color(0xff3b5998)),
         debugShowCheckedModeBanner: false,
         home: new Scaffold(
             appBar: new AppBar(
@@ -21,141 +23,78 @@ class MainApp extends StatelessWidget {
 }
 
 class MainScreen extends StatefulWidget {
-  final double timeDelay;
-
-  MainScreen({this.timeDelay});
-
   @override
   State createState() => new MainScreenState();
 }
 
 class MainScreenState extends State<MainScreen> {
-  double timeDelay = 1.0;
-  TextEditingController editingController = new TextEditingController();
-  List<Color> btnColors = new List(5);
+  static List<double> timeDelays = [1.0, 2.0, 3.0, 4.0, 5.0];
+  int selectedIndex = 0;
 
-  onSpeedSettingPress(double value, int index) {
+  onSpeedSettingPress(int index) {
+    timeDilation = timeDelays[index];
     setState(() {
-      timeDelay = value;
-      for (int i = 0; i < 5; i++) {
-        if (i == index) {
-          btnColors[i] = new Color(0xff3b5998);
-        } else {
-          btnColors[i] = new Color(0xffDAA520);
-        }
-      }
+      selectedIndex = index;
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    for (int i = 0; i < 5; i++) {
-      btnColors[i] = new Color(0xffDAA520);
-    }
-    btnColors[0] = new Color(0xff3b5998);
+  buildList() {
+    final List<Widget> list = [
+      new Text(
+        'SPEED:',
+        style: new TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold),
+      )
+    ];
+
+    timeDelays.asMap().forEach((index, delay) {
+      list.add(Container(
+        child: new GestureDetector(
+          onTap: () => onSpeedSettingPress(index),
+          child: new Container(
+            child: new Text(delay.toString(),
+                style: new TextStyle(color: Colors.white)),
+            padding: new EdgeInsets.all(10.0),
+            decoration: new BoxDecoration(
+              color: index == selectedIndex
+                  ? Color(0xff3b5998)
+                  : Color(0xffDAA520),
+              borderRadius: new BorderRadius.circular(20.0),
+            ),
+          ),
+        ),
+        margin: new EdgeInsets.all(5.0),
+      ));
+    });
+
+    return list;
   }
 
   @override
   Widget build(BuildContext context) {
-    timeDilation = timeDelay;
     return new Material(
       child: new Center(
           child: new Column(
         children: <Widget>[
           new Container(
-            child: new Row(
-              children: <Widget>[
-                new Text(
-                  'SPEED:',
-                  style: new TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold),
-                ),
-                new Container(
-                  child: new GestureDetector(
-                    onTap: () => onSpeedSettingPress(1.0, 0),
-                    child: new Container(
-                      child: new Text('1.0', style: new TextStyle(color: Colors.white)),
-                      padding: new EdgeInsets.all(10.0),
-                      decoration: new BoxDecoration(
-                        color: btnColors[0],
-                        borderRadius: new BorderRadius.circular(20.0),
-                      ),
-                    ),
-                  ),
-                  margin: new EdgeInsets.all(5.0),
-                ),
-                new Container(
-                  child: new GestureDetector(
-                    onTap: () => onSpeedSettingPress(2.0, 1),
-                    child: new Container(
-                      child: new Text('2.0', style: new TextStyle(color: Colors.white)),
-                      padding: new EdgeInsets.all(10.0),
-                      decoration: new BoxDecoration(
-                        color: btnColors[1],
-                        borderRadius: new BorderRadius.circular(20.0),
-                      ),
-                    ),
-                  ),
-                  margin: new EdgeInsets.all(5.0),
-                ),
-                new Container(
-                  child: new GestureDetector(
-                    onTap: () => onSpeedSettingPress(3.0, 2),
-                    child: new Container(
-                      child: new Text('3.0', style: new TextStyle(color: Colors.white)),
-                      padding: new EdgeInsets.all(10.0),
-                      decoration: new BoxDecoration(
-                        color: btnColors[2],
-                        borderRadius: new BorderRadius.circular(20.0),
-                      ),
-                    ),
-                  ),
-                  margin: new EdgeInsets.all(5.0),
-                ),
-                new Container(
-                  child: new GestureDetector(
-                    onTap: () => onSpeedSettingPress(4.0, 3),
-                    child: new Container(
-                      child: new Text('4.0', style: new TextStyle(color: Colors.white)),
-                      padding: new EdgeInsets.all(10.0),
-                      decoration: new BoxDecoration(
-                        color: btnColors[3],
-                        borderRadius: new BorderRadius.circular(20.0),
-                      ),
-                    ),
-                  ),
-                  margin: new EdgeInsets.all(5.0),
-                ),
-                new Container(
-                  child: new GestureDetector(
-                    onTap: () => onSpeedSettingPress(5.0, 4),
-                    child: new Container(
-                      child: new Text('5.0', style: new TextStyle(color: Colors.white)),
-                      padding: new EdgeInsets.all(10.0),
-                      decoration: new BoxDecoration(
-                        color: btnColors[4],
-                        borderRadius: new BorderRadius.circular(20.0),
-                      ),
-                    ),
-                  ),
-                  margin: new EdgeInsets.all(5.0),
-                ),
-              ],
-            ),
-            margin: new EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0, bottom: 10.0),
+            child: new Row(children: buildList()),
+            margin: new EdgeInsets.only(
+                left: 20.0, right: 20.0, top: 20.0, bottom: 10.0),
           ),
           new Container(
             height: 15.0,
           ),
-          buildButton(context, 'Facebook reactions animation', new FbReactionBox())
+          buildButton(
+              context, 'Facebook reactions animation', new FbReactionBox())
         ],
       )),
     );
   }
 
-  Widget buildButton(BuildContext context, String name, StatelessWidget screenTo) {
+  Widget buildButton(
+      BuildContext context, String name, StatelessWidget screenTo) {
     return new FlatButton(
-      onPressed: () => Navigator.push(context, new MaterialPageRoute(builder: (context) => screenTo)),
+      onPressed: () => Navigator.push(
+          context, new MaterialPageRoute(builder: (context) => screenTo)),
       child: new Container(
         child: new Text(
           name,

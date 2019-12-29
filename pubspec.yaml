@@ -6,8 +6,8 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^0.1.2
-  audioplayer: ^0.5.2
-  path_provider: ^1.1.2
+  audioplayers: ^0.13.5
+  path_provider: ^1.5.1
 
 dev_dependencies:
   flutter_test:

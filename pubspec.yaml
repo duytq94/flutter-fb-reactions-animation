@@ -1,13 +1,14 @@
 name: facebook_reaction_animation
 description: Facebook reaction animation with Flutter
+version: 0.0.1
 
 dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^0.1.2
-  audioplayers: ^0.13.5
-  path_provider: ^1.5.1
+  cupertino_icons: ^0.1.3
+  audioplayers: ^0.20.1
+  path_provider: ^2.0.4
 
 dev_dependencies:
   flutter_test:
@@ -18,22 +19,8 @@ flutter:
   uses-material-design: true
 
   assets:
-    - images/like.gif
-    - images/love.gif
-    - images/haha.gif
-    - images/wow.gif
-    - images/sad.gif
-    - images/angry.gif
-    - images/angry2.png
-    - images/love2.png
-    - images/haha2.png
-    - images/wow2.png
-    - images/sad2.png
-    - images/ic_like.png
-    - images/ic_like_fill.png
+    - images/
+    - sounds/
 
-    - sounds/box_down.mp3
-    - sounds/box_up.mp3
-    - sounds/icon_choose.mp3
-    - sounds/icon_focus.mp3
-    - sounds/short_press_like.mp3
+environment:
+  sdk: ">=2.12.0 <3.0.0"

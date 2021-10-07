@@ -10,14 +10,15 @@ class FbReactionBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'FB REACTION',
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-          ),
-          centerTitle: true,
+      appBar: AppBar(
+        title: Text(
+          'FB REACTION',
+          style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
         ),
-        body: FbReaction());
+        centerTitle: true,
+      ),
+      body: FbReaction(),
+    );
   }
 }
 
@@ -27,7 +28,7 @@ class FbReaction extends StatefulWidget {
 }
 
 class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
-  AudioPlayer audioPlayer;
+  late AudioPlayer audioPlayer;
 
   int durationAnimationBox = 500;
   int durationAnimationBtnLongPress = 150;
@@ -36,32 +37,32 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
   int durationAnimationIconWhenRelease = 1000;
 
   // For long press btn
-  AnimationController animControlBtnLongPress, animControlBox;
-  Animation zoomIconLikeInBtn, tiltIconLikeInBtn, zoomTextLikeInBtn;
-  Animation fadeInBox;
-  Animation moveRightGroupIcon;
-  Animation pushIconLikeUp, pushIconLoveUp, pushIconHahaUp, pushIconWowUp, pushIconSadUp, pushIconAngryUp;
-  Animation zoomIconLike, zoomIconLove, zoomIconHaha, zoomIconWow, zoomIconSad, zoomIconAngry;
+  late AnimationController animControlBtnLongPress, animControlBox;
+  late Animation zoomIconLikeInBtn, tiltIconLikeInBtn, zoomTextLikeInBtn;
+  late Animation fadeInBox;
+  late Animation moveRightGroupIcon;
+  late Animation pushIconLikeUp, pushIconLoveUp, pushIconHahaUp, pushIconWowUp, pushIconSadUp, pushIconAngryUp;
+  late Animation zoomIconLike, zoomIconLove, zoomIconHaha, zoomIconWow, zoomIconSad, zoomIconAngry;
 
   // For short press btn
-  AnimationController animControlBtnShortPress;
-  Animation zoomIconLikeInBtn2, tiltIconLikeInBtn2;
+  late AnimationController animControlBtnShortPress;
+  late Animation zoomIconLikeInBtn2, tiltIconLikeInBtn2;
 
   // For zoom icon when drag
-  AnimationController animControlIconWhenDrag;
-  AnimationController animControlIconWhenDragInside;
-  AnimationController animControlIconWhenDragOutside;
-  AnimationController animControlBoxWhenDragOutside;
-  Animation zoomIconChosen, zoomIconNotChosen;
-  Animation zoomIconWhenDragOutside;
-  Animation zoomIconWhenDragInside;
-  Animation zoomBoxWhenDragOutside;
-  Animation zoomBoxIcon;
+  late AnimationController animControlIconWhenDrag;
+  late AnimationController animControlIconWhenDragInside;
+  late AnimationController animControlIconWhenDragOutside;
+  late AnimationController animControlBoxWhenDragOutside;
+  late Animation zoomIconChosen, zoomIconNotChosen;
+  late Animation zoomIconWhenDragOutside;
+  late Animation zoomIconWhenDragInside;
+  late Animation zoomBoxWhenDragOutside;
+  late Animation zoomBoxIcon;
 
   // For jump icon when release
-  AnimationController animControlIconWhenRelease;
-  Animation zoomIconWhenRelease, moveUpIconWhenRelease;
-  Animation moveLeftIconLikeWhenRelease,
+  late AnimationController animControlIconWhenRelease;
+  late Animation zoomIconWhenRelease, moveUpIconWhenRelease;
+  late Animation moveLeftIconLikeWhenRelease,
       moveLeftIconLoveWhenRelease,
       moveLeftIconHahaWhenRelease,
       moveLeftIconWowWhenRelease,
@@ -69,7 +70,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
       moveLeftIconAngryWhenRelease;
 
   Duration durationLongPress = Duration(milliseconds: 250);
-  Timer holdTimer;
+  late Timer holdTimer;
   bool isLongPress = false;
   bool isLiked = false;
 
@@ -515,19 +516,21 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(30.0),
-          border: Border.all(color: Colors.grey[300], width: 0.3),
+          border: Border.all(color: Colors.grey.shade300, width: 0.3),
           boxShadow: [
             BoxShadow(
                 color: Colors.grey,
                 blurRadius: 5.0,
                 // LTRB
-                offset: Offset.lerp(Offset(0.0, 0.0), Offset(0.0, 0.5), 10.0)),
+                offset: Offset.lerp(Offset(0.0, 0.0), Offset(0.0, 0.5), 10.0)!),
           ],
         ),
         width: 300.0,
         height: isDragging
             ? (previousIconFocus == 0 ? this.zoomBoxIcon.value : 40.0)
-            : isDraggingOutside ? this.zoomBoxWhenDragOutside.value : 50.0,
+            : isDraggingOutside
+                ? this.zoomBoxWhenDragOutside.value
+                : 50.0,
         margin: EdgeInsets.only(bottom: 130.0, left: 10.0),
       ),
       opacity: this.fadeInBox.value,
@@ -572,8 +575,12 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                     ? this.zoomIconChosen.value
                     : (previousIconFocus == 1
                         ? this.zoomIconNotChosen.value
-                        : isJustDragInside ? this.zoomIconWhenDragInside.value : 0.8))
-                : isDraggingOutside ? this.zoomIconWhenDragOutside.value : this.zoomIconLike.value,
+                        : isJustDragInside
+                            ? this.zoomIconWhenDragInside.value
+                            : 0.8))
+                : isDraggingOutside
+                    ? this.zoomIconWhenDragOutside.value
+                    : this.zoomIconLike.value,
           ),
 
           // icon love
@@ -610,8 +617,12 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                     ? this.zoomIconChosen.value
                     : (previousIconFocus == 2
                         ? this.zoomIconNotChosen.value
-                        : isJustDragInside ? this.zoomIconWhenDragInside.value : 0.8))
-                : isDraggingOutside ? this.zoomIconWhenDragOutside.value : this.zoomIconLove.value,
+                        : isJustDragInside
+                            ? this.zoomIconWhenDragInside.value
+                            : 0.8))
+                : isDraggingOutside
+                    ? this.zoomIconWhenDragOutside.value
+                    : this.zoomIconLove.value,
           ),
 
           // icon haha
@@ -648,8 +659,12 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                     ? this.zoomIconChosen.value
                     : (previousIconFocus == 3
                         ? this.zoomIconNotChosen.value
-                        : isJustDragInside ? this.zoomIconWhenDragInside.value : 0.8))
-                : isDraggingOutside ? this.zoomIconWhenDragOutside.value : this.zoomIconHaha.value,
+                        : isJustDragInside
+                            ? this.zoomIconWhenDragInside.value
+                            : 0.8))
+                : isDraggingOutside
+                    ? this.zoomIconWhenDragOutside.value
+                    : this.zoomIconHaha.value,
           ),
 
           // icon wow
@@ -686,8 +701,12 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                     ? this.zoomIconChosen.value
                     : (previousIconFocus == 4
                         ? this.zoomIconNotChosen.value
-                        : isJustDragInside ? this.zoomIconWhenDragInside.value : 0.8))
-                : isDraggingOutside ? this.zoomIconWhenDragOutside.value : this.zoomIconWow.value,
+                        : isJustDragInside
+                            ? this.zoomIconWhenDragInside.value
+                            : 0.8))
+                : isDraggingOutside
+                    ? this.zoomIconWhenDragOutside.value
+                    : this.zoomIconWow.value,
           ),
 
           // icon sad
@@ -724,8 +743,12 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                     ? this.zoomIconChosen.value
                     : (previousIconFocus == 5
                         ? this.zoomIconNotChosen.value
-                        : isJustDragInside ? this.zoomIconWhenDragInside.value : 0.8))
-                : isDraggingOutside ? this.zoomIconWhenDragOutside.value : this.zoomIconSad.value,
+                        : isJustDragInside
+                            ? this.zoomIconWhenDragInside.value
+                            : 0.8))
+                : isDraggingOutside
+                    ? this.zoomIconWhenDragOutside.value
+                    : this.zoomIconSad.value,
           ),
 
           // icon angry
@@ -762,8 +785,12 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                     ? this.zoomIconChosen.value
                     : (previousIconFocus == 6
                         ? this.zoomIconNotChosen.value
-                        : isJustDragInside ? this.zoomIconWhenDragInside.value : 0.8))
-                : isDraggingOutside ? this.zoomIconWhenDragOutside.value : this.zoomIconAngry.value,
+                        : isJustDragInside
+                            ? this.zoomIconWhenDragInside.value
+                            : 0.8))
+                : isDraggingOutside
+                    ? this.zoomIconWhenDragOutside.value
+                    : this.zoomIconAngry.value,
           ),
         ],
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -903,7 +930,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
     }
   }
 
-  Color getTintColorIconBtn() {
+  Color? getTintColorIconBtn() {
     if (!isLongPress && isLiked) {
       return Color(0xff3b5998);
     } else if (!isDragging && whichIconUserChoose != 0) {
@@ -941,7 +968,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
           return Colors.grey;
       }
     } else {
-      return Colors.grey[400];
+      return Colors.grey.shade400;
     }
   }
 
@@ -1027,7 +1054,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
     holdTimer = Timer(durationLongPress, showBox);
   }
 
-  void onTapUpBtn(TapUpDetails tapUpDetail) {
+  void onTapUpBtn(TapUpDetails? tapUpDetail) {
     if (isLongPress) {
       if (whichIconUserChoose == 0) {
         playSound('box_down.mp3');

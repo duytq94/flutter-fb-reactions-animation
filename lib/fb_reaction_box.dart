@@ -553,7 +553,9 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                             style: TextStyle(fontSize: 8.0, color: Colors.white),
                           ),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.black.withOpacity(0.3),
+                          ),
                           padding: EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
                           margin: EdgeInsets.only(bottom: 8.0),
                         )
@@ -721,7 +723,9 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                             style: TextStyle(fontSize: 8.0, color: Colors.white),
                           ),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.black.withOpacity(0.3),
+                          ),
                           padding: EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
                           margin: EdgeInsets.only(bottom: 8.0),
                         )
@@ -763,7 +767,9 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                             style: TextStyle(fontSize: 8.0, color: Colors.white),
                           ),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0), color: Colors.black.withOpacity(0.3)),
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.black.withOpacity(0.3),
+                          ),
                           padding: EdgeInsets.only(left: 7.0, right: 7.0, top: 2.0, bottom: 2.0),
                           margin: EdgeInsets.only(bottom: 8.0),
                         )
@@ -1219,7 +1225,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
   }
 
   Future playSound(String nameSound) async {
-    // Sometimes multiple sound will play the same time, so we'll stop all before play the
+    // Sometimes multiple sound will play the same time, so we'll stop all before play the newest
     await audioPlayer.stop();
     final file = File('${(await getTemporaryDirectory()).path}/$nameSound');
     await file.writeAsBytes((await loadAsset(nameSound)).buffer.asUint8List());

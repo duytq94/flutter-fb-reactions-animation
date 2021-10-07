@@ -8,15 +8,17 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Facebook Reactions by Flutter',
-        theme: ThemeData(primaryColor: Color(0xff3b5998), accentColor: Color(0xff3b5998)),
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-            appBar: AppBar(
-              title: Text('MAIN'),
-              centerTitle: true,
-            ),
-            body: MainScreen()));
+      title: 'Facebook Reactions by Flutter',
+      theme: ThemeData(primaryColor: Color(0xff3b5998), accentColor: Color(0xff3b5998)),
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('MAIN'),
+          centerTitle: true,
+        ),
+        body: MainScreen(),
+      ),
+    );
   }
 }
 
@@ -84,7 +86,7 @@ class MainScreenState extends State<MainScreen> {
   }
 
   Widget buildButton(BuildContext context, String name, StatelessWidget screenTo) {
-    return FlatButton(
+    return TextButton(
       onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => screenTo)),
       child: Container(
         child: Text(
@@ -94,9 +96,18 @@ class MainScreenState extends State<MainScreen> {
         ),
         width: 270.0,
       ),
-      color: Color(0xff3b5998),
-      highlightColor: Color(0xff8b9dc3),
-      padding: EdgeInsets.all(12.0),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.resolveWith<Color>(
+          (Set<MaterialState> states) {
+            if (states.contains(MaterialState.pressed)) return Color(0xff3b5998).withOpacity(0.8);
+            return Color(0xff3b5998);
+          },
+        ),
+        splashFactory: NoSplash.splashFactory,
+        padding: MaterialStateProperty.all<EdgeInsets>(
+          EdgeInsets.fromLTRB(30, 15, 30, 15),
+        ),
+      ),
     );
   }
 }

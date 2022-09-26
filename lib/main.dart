@@ -9,7 +9,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Facebook Reactions by Flutter',
-      theme: ThemeData(primaryColor: Color(0xff3b5998), accentColor: Color(0xff3b5998)),
+      theme: ThemeData(primaryColor: Color(0xff3b5998)),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
@@ -31,21 +31,20 @@ class MainScreenState extends State<MainScreen> {
   static List<double> timeDelays = [1.0, 2.0, 3.0, 4.0, 5.0];
   int selectedIndex = 0;
 
-  onSpeedSettingPress(int index) {
+  void onSpeedSettingPress(int index) {
     timeDilation = timeDelays[index];
     setState(() {
       selectedIndex = index;
     });
   }
 
-  buildList() {
+  List<Widget> buildList() {
     final List<Widget> list = [
       Text(
         'SPEED:',
         style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold),
       )
     ];
-
     timeDelays.asMap().forEach((index, delay) {
       list.add(Container(
         child: GestureDetector(
@@ -62,7 +61,6 @@ class MainScreenState extends State<MainScreen> {
         margin: EdgeInsets.all(5.0),
       ));
     });
-
     return list;
   }
 

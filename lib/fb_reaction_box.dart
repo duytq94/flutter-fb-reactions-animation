@@ -1,346 +1,328 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:facebook_reaction_animation/const.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 
-class FbReactionBox extends StatelessWidget {
+class FbReactionBox extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'FB REACTION',
-          style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-      ),
-      body: FbReaction(),
-    );
-  }
+  createState() => FbReactionBoxState();
 }
 
-class FbReaction extends StatefulWidget {
-  @override
-  createState() => FbReactionState();
-}
+class FbReactionBoxState extends State<FbReactionBox> with TickerProviderStateMixin {
+  final _audioPlayer = AudioPlayer();
 
-class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
-  late AudioPlayer audioPlayer;
-
-  int durationAnimationBox = 500;
-  int durationAnimationBtnLongPress = 150;
-  int durationAnimationBtnShortPress = 500;
-  int durationAnimationIconWhenDrag = 150;
-  int durationAnimationIconWhenRelease = 1000;
+  int _durationAnimationBox = 500;
+  int _durationAnimationBtnLongPress = 150;
+  int _durationAnimationBtnShortPress = 500;
+  int _durationAnimationEmojiWhenDrag = 150;
+  int _durationAnimationEmojiWhenRelease = 1000;
 
   // For long press btn
-  late AnimationController animControlBtnLongPress, animControlBox;
-  late Animation zoomIconLikeInBtn, tiltIconLikeInBtn, zoomTextLikeInBtn;
-  late Animation fadeInBox;
-  late Animation moveRightGroupIcon;
-  late Animation pushIconLikeUp, pushIconLoveUp, pushIconHahaUp, pushIconWowUp, pushIconSadUp, pushIconAngryUp;
-  late Animation zoomIconLike, zoomIconLove, zoomIconHaha, zoomIconWow, zoomIconSad, zoomIconAngry;
+  late AnimationController _animControlBtnLongPress, _animControlBox;
+  late Animation _zoomEmojiLikeInBtn, _tiltEmojiLikeInBtn, _zoomTextLikeInBtn;
+  late Animation _fadeInBox;
+  late Animation _moveRightGroupEmoji;
+  late Animation _pushEmojiLikeUp,
+      _pushEmojiLoveUp,
+      _pushEmojiHahaUp,
+      _pushEmojiWowUp,
+      _pushEmojiSadUp,
+      _pushEmojiAngryUp;
+  late Animation _zoomEmojiLike, _zoomEmojiLove, _zoomEmojiHaha, _zoomEmojiWow, _zoomEmojiSad, _zoomEmojiAngry;
 
   // For short press btn
-  late AnimationController animControlBtnShortPress;
-  late Animation zoomIconLikeInBtn2, tiltIconLikeInBtn2;
+  late AnimationController _animControlBtnShortPress;
+  late Animation _zoomEmojiLikeInBtn2, _tiltEmojiLikeInBtn2;
 
-  // For zoom icon when drag
-  late AnimationController animControlIconWhenDrag;
-  late AnimationController animControlIconWhenDragInside;
-  late AnimationController animControlIconWhenDragOutside;
-  late AnimationController animControlBoxWhenDragOutside;
-  late Animation zoomIconChosen, zoomIconNotChosen;
-  late Animation zoomIconWhenDragOutside;
-  late Animation zoomIconWhenDragInside;
-  late Animation zoomBoxWhenDragOutside;
-  late Animation zoomBoxIcon;
+  // For zoom emoji when drag
+  late AnimationController _animControlEmojiWhenDrag;
+  late AnimationController _animControlEmojiWhenDragInside;
+  late AnimationController _animControlEmojiWhenDragOutside;
+  late AnimationController _animControlBoxWhenDragOutside;
+  late Animation _zoomEmojiChosen, _zoomEmojiNotChosen;
+  late Animation _zoomEmojiWhenDragOutside;
+  late Animation _zoomEmojiWhenDragInside;
+  late Animation _zoomBoxWhenDragOutside;
+  late Animation _zoomBoxEmoji;
 
-  // For jump icon when release
-  late AnimationController animControlIconWhenRelease;
-  late Animation zoomIconWhenRelease, moveUpIconWhenRelease;
-  late Animation moveLeftIconLikeWhenRelease,
-      moveLeftIconLoveWhenRelease,
-      moveLeftIconHahaWhenRelease,
-      moveLeftIconWowWhenRelease,
-      moveLeftIconSadWhenRelease,
-      moveLeftIconAngryWhenRelease;
+  // For jump emoji when release
+  late AnimationController _animControlEmojiWhenRelease;
+  late Animation _zoomEmojiWhenRelease, _moveUpEmojiWhenRelease;
+  late Animation _moveLeftEmojiLikeWhenRelease,
+      _moveLeftEmojiLoveWhenRelease,
+      _moveLeftEmojiHahaWhenRelease,
+      _moveLeftEmojiWowWhenRelease,
+      _moveLeftEmojiSadWhenRelease,
+      _moveLeftEmojiAngryWhenRelease;
 
-  Duration durationLongPress = Duration(milliseconds: 250);
-  late Timer holdTimer;
-  bool isLongPress = false;
-  bool isLiked = false;
+  final _durationLongPress = Duration(milliseconds: 250);
+  late Timer _holdTimer;
+  bool _isLongPress = false;
+  bool _isLiked = false;
 
-  // 0 = nothing, 1 = like, 2 = love, 3 = haha, 4 = wow, 5 = sad, 6 = angry
-  int whichIconUserChoose = 0;
-
-  // 0 = nothing, 1 = like, 2 = love, 3 = haha, 4 = wow, 5 = sad, 6 = angry
-  int currentIconFocus = 0;
-  int previousIconFocus = 0;
-  bool isDragging = false;
-  bool isDraggingOutside = false;
-  bool isJustDragInside = true;
+  ReactionEmoji _emojiUserChoose = ReactionEmoji.nothing;
+  ReactionEmoji _currentEmojiFocus = ReactionEmoji.nothing;
+  ReactionEmoji _previousEmojiFocus = ReactionEmoji.nothing;
+  bool _isDragging = false;
+  bool _isDraggingOutside = false;
+  bool _isJustDragInside = true;
 
   @override
   void initState() {
     super.initState();
 
-    audioPlayer = AudioPlayer();
-
     // Button Like
-    initAnimationBtnLike();
+    _initAnimationBtnLike();
 
-    // Box and Icons
-    initAnimationBoxAndIcons();
+    // Box and Emojis
+    _initAnimationBoxAndEmojis();
 
-    // Icon when drag
-    initAnimationIconWhenDrag();
+    // Emoji when drag
+    _initAnimationEmojiWhenDrag();
 
-    // Icon when drag outside
-    initAnimationIconWhenDragOutside();
+    // Emoji when drag outside
+    _initAnimationEmojiWhenDragOutside();
 
     // Box when drag outside
-    initAnimationBoxWhenDragOutside();
+    _initAnimationBoxWhenDragOutside();
 
-    // Icon when first drag
-    initAnimationIconWhenDragInside();
+    // Emoji when first drag
+    _initAnimationEmojiWhenDragInside();
 
-    // Icon when release
-    initAnimationIconWhenRelease();
+    // Emoji when release
+    _initAnimationEmojiWhenRelease();
   }
 
-  initAnimationBtnLike() {
+  void _initAnimationBtnLike() {
     // long press
-    animControlBtnLongPress =
-        AnimationController(vsync: this, duration: Duration(milliseconds: durationAnimationBtnLongPress));
-    zoomIconLikeInBtn = Tween(begin: 1.0, end: 0.85).animate(animControlBtnLongPress);
-    tiltIconLikeInBtn = Tween(begin: 0.0, end: 0.2).animate(animControlBtnLongPress);
-    zoomTextLikeInBtn = Tween(begin: 1.0, end: 0.85).animate(animControlBtnLongPress);
+    _animControlBtnLongPress =
+        AnimationController(vsync: this, duration: Duration(milliseconds: _durationAnimationBtnLongPress));
+    _zoomEmojiLikeInBtn = Tween(begin: 1.0, end: 0.85).animate(_animControlBtnLongPress);
+    _tiltEmojiLikeInBtn = Tween(begin: 0.0, end: 0.2).animate(_animControlBtnLongPress);
+    _zoomTextLikeInBtn = Tween(begin: 1.0, end: 0.85).animate(_animControlBtnLongPress);
 
-    zoomIconLikeInBtn.addListener(() {
+    _zoomEmojiLikeInBtn.addListener(() {
       setState(() {});
     });
-    tiltIconLikeInBtn.addListener(() {
+    _tiltEmojiLikeInBtn.addListener(() {
       setState(() {});
     });
-    zoomTextLikeInBtn.addListener(() {
+    _zoomTextLikeInBtn.addListener(() {
       setState(() {});
     });
 
     // short press
-    animControlBtnShortPress =
-        AnimationController(vsync: this, duration: Duration(milliseconds: durationAnimationBtnShortPress));
-    zoomIconLikeInBtn2 = Tween(begin: 1.0, end: 0.2).animate(animControlBtnShortPress);
-    tiltIconLikeInBtn2 = Tween(begin: 0.0, end: 0.8).animate(animControlBtnShortPress);
+    _animControlBtnShortPress =
+        AnimationController(vsync: this, duration: Duration(milliseconds: _durationAnimationBtnShortPress));
+    _zoomEmojiLikeInBtn2 = Tween(begin: 1.0, end: 0.2).animate(_animControlBtnShortPress);
+    _tiltEmojiLikeInBtn2 = Tween(begin: 0.0, end: 0.8).animate(_animControlBtnShortPress);
 
-    zoomIconLikeInBtn2.addListener(() {
+    _zoomEmojiLikeInBtn2.addListener(() {
       setState(() {});
     });
-    tiltIconLikeInBtn2.addListener(() {
+    _tiltEmojiLikeInBtn2.addListener(() {
       setState(() {});
     });
   }
 
-  initAnimationBoxAndIcons() {
-    animControlBox = AnimationController(vsync: this, duration: Duration(milliseconds: durationAnimationBox));
+  void _initAnimationBoxAndEmojis() {
+    _animControlBox = AnimationController(vsync: this, duration: Duration(milliseconds: _durationAnimationBox));
 
     // General
-    moveRightGroupIcon = Tween(begin: 0.0, end: 10.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.0, 1.0)),
+    _moveRightGroupEmoji = Tween(begin: 0.0, end: 10.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.0, 1.0)),
     );
-    moveRightGroupIcon.addListener(() {
+    _moveRightGroupEmoji.addListener(() {
       setState(() {});
     });
 
     // Box
-    fadeInBox = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.7, 1.0)),
+    _fadeInBox = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.7, 1.0)),
     );
-    fadeInBox.addListener(() {
+    _fadeInBox.addListener(() {
       setState(() {});
     });
 
-    // Icons
-    pushIconLikeUp = Tween(begin: 30.0, end: 60.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.0, 0.5)),
+    // Emoji
+    _pushEmojiLikeUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.0, 0.5)),
     );
-    zoomIconLike = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.0, 0.5)),
-    );
-
-    pushIconLoveUp = Tween(begin: 30.0, end: 60.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.1, 0.6)),
-    );
-    zoomIconLove = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.1, 0.6)),
+    _zoomEmojiLike = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.0, 0.5)),
     );
 
-    pushIconHahaUp = Tween(begin: 30.0, end: 60.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.2, 0.7)),
+    _pushEmojiLoveUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.1, 0.6)),
     );
-    zoomIconHaha = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.2, 0.7)),
-    );
-
-    pushIconWowUp = Tween(begin: 30.0, end: 60.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.3, 0.8)),
-    );
-    zoomIconWow = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.3, 0.8)),
+    _zoomEmojiLove = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.1, 0.6)),
     );
 
-    pushIconSadUp = Tween(begin: 30.0, end: 60.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.4, 0.9)),
+    _pushEmojiHahaUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.2, 0.7)),
     );
-    zoomIconSad = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.4, 0.9)),
-    );
-
-    pushIconAngryUp = Tween(begin: 30.0, end: 60.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.5, 1.0)),
-    );
-    zoomIconAngry = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.5, 1.0)),
+    _zoomEmojiHaha = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.2, 0.7)),
     );
 
-    pushIconLikeUp.addListener(() {
+    _pushEmojiWowUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.3, 0.8)),
+    );
+    _zoomEmojiWow = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.3, 0.8)),
+    );
+
+    _pushEmojiSadUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.4, 0.9)),
+    );
+    _zoomEmojiSad = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.4, 0.9)),
+    );
+
+    _pushEmojiAngryUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.5, 1.0)),
+    );
+    _zoomEmojiAngry = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.5, 1.0)),
+    );
+
+    _pushEmojiLikeUp.addListener(() {
       setState(() {});
     });
-    zoomIconLike.addListener(() {
+    _zoomEmojiLike.addListener(() {
       setState(() {});
     });
-    pushIconLoveUp.addListener(() {
+    _pushEmojiLoveUp.addListener(() {
       setState(() {});
     });
-    zoomIconLove.addListener(() {
+    _zoomEmojiLove.addListener(() {
       setState(() {});
     });
-    pushIconHahaUp.addListener(() {
+    _pushEmojiHahaUp.addListener(() {
       setState(() {});
     });
-    zoomIconHaha.addListener(() {
+    _zoomEmojiHaha.addListener(() {
       setState(() {});
     });
-    pushIconWowUp.addListener(() {
+    _pushEmojiWowUp.addListener(() {
       setState(() {});
     });
-    zoomIconWow.addListener(() {
+    _zoomEmojiWow.addListener(() {
       setState(() {});
     });
-    pushIconSadUp.addListener(() {
+    _pushEmojiSadUp.addListener(() {
       setState(() {});
     });
-    zoomIconSad.addListener(() {
+    _zoomEmojiSad.addListener(() {
       setState(() {});
     });
-    pushIconAngryUp.addListener(() {
+    _pushEmojiAngryUp.addListener(() {
       setState(() {});
     });
-    zoomIconAngry.addListener(() {
+    _zoomEmojiAngry.addListener(() {
       setState(() {});
     });
   }
 
-  initAnimationIconWhenDrag() {
-    animControlIconWhenDrag =
-        AnimationController(vsync: this, duration: Duration(milliseconds: durationAnimationIconWhenDrag));
+  void _initAnimationEmojiWhenDrag() {
+    _animControlEmojiWhenDrag =
+        AnimationController(vsync: this, duration: Duration(milliseconds: _durationAnimationEmojiWhenDrag));
 
-    zoomIconChosen = Tween(begin: 1.0, end: 1.8).animate(animControlIconWhenDrag);
-    zoomIconNotChosen = Tween(begin: 1.0, end: 0.8).animate(animControlIconWhenDrag);
-    zoomBoxIcon = Tween(begin: 50.0, end: 40.0).animate(animControlIconWhenDrag);
+    _zoomEmojiChosen = Tween(begin: 1.0, end: 1.8).animate(_animControlEmojiWhenDrag);
+    _zoomEmojiNotChosen = Tween(begin: 1.0, end: 0.8).animate(_animControlEmojiWhenDrag);
+    _zoomBoxEmoji = Tween(begin: 50.0, end: 40.0).animate(_animControlEmojiWhenDrag);
 
-    zoomIconChosen.addListener(() {
+    _zoomEmojiChosen.addListener(() {
       setState(() {});
     });
-    zoomIconNotChosen.addListener(() {
+    _zoomEmojiNotChosen.addListener(() {
       setState(() {});
     });
-    zoomBoxIcon.addListener(() {
+    _zoomBoxEmoji.addListener(() {
       setState(() {});
     });
   }
 
-  initAnimationIconWhenDragOutside() {
-    animControlIconWhenDragOutside =
-        AnimationController(vsync: this, duration: Duration(milliseconds: durationAnimationIconWhenDrag));
-    zoomIconWhenDragOutside = Tween(begin: 0.8, end: 1.0).animate(animControlIconWhenDragOutside);
-    zoomIconWhenDragOutside.addListener(() {
+  void _initAnimationEmojiWhenDragOutside() {
+    _animControlEmojiWhenDragOutside =
+        AnimationController(vsync: this, duration: Duration(milliseconds: _durationAnimationEmojiWhenDrag));
+    _zoomEmojiWhenDragOutside = Tween(begin: 0.8, end: 1.0).animate(_animControlEmojiWhenDragOutside);
+    _zoomEmojiWhenDragOutside.addListener(() {
       setState(() {});
     });
   }
 
-  initAnimationBoxWhenDragOutside() {
-    animControlBoxWhenDragOutside =
-        AnimationController(vsync: this, duration: Duration(milliseconds: durationAnimationIconWhenDrag));
-    zoomBoxWhenDragOutside = Tween(begin: 40.0, end: 50.0).animate(animControlBoxWhenDragOutside);
-    zoomBoxWhenDragOutside.addListener(() {
+  void _initAnimationBoxWhenDragOutside() {
+    _animControlBoxWhenDragOutside =
+        AnimationController(vsync: this, duration: Duration(milliseconds: _durationAnimationEmojiWhenDrag));
+    _zoomBoxWhenDragOutside = Tween(begin: 40.0, end: 50.0).animate(_animControlBoxWhenDragOutside);
+    _zoomBoxWhenDragOutside.addListener(() {
       setState(() {});
     });
   }
 
-  initAnimationIconWhenDragInside() {
-    animControlIconWhenDragInside =
-        AnimationController(vsync: this, duration: Duration(milliseconds: durationAnimationIconWhenDrag));
-    zoomIconWhenDragInside = Tween(begin: 1.0, end: 0.8).animate(animControlIconWhenDragInside);
-    zoomIconWhenDragInside.addListener(() {
+  void _initAnimationEmojiWhenDragInside() {
+    _animControlEmojiWhenDragInside =
+        AnimationController(vsync: this, duration: Duration(milliseconds: _durationAnimationEmojiWhenDrag));
+    _zoomEmojiWhenDragInside = Tween(begin: 1.0, end: 0.8).animate(_animControlEmojiWhenDragInside);
+    _zoomEmojiWhenDragInside.addListener(() {
       setState(() {});
     });
-    animControlIconWhenDragInside.addStatusListener((status) {
+    _animControlEmojiWhenDragInside.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        isJustDragInside = false;
+        _isJustDragInside = false;
       }
     });
   }
 
-  initAnimationIconWhenRelease() {
-    animControlIconWhenRelease =
-        AnimationController(vsync: this, duration: Duration(milliseconds: durationAnimationIconWhenRelease));
+  void _initAnimationEmojiWhenRelease() {
+    _animControlEmojiWhenRelease =
+        AnimationController(vsync: this, duration: Duration(milliseconds: _durationAnimationEmojiWhenRelease));
 
-    zoomIconWhenRelease = Tween(begin: 1.8, end: 0.0)
-        .animate(CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
+    _zoomEmojiWhenRelease = Tween(begin: 1.8, end: 0.0)
+        .animate(CurvedAnimation(parent: _animControlEmojiWhenRelease, curve: Curves.decelerate));
 
-    moveUpIconWhenRelease = Tween(begin: 180.0, end: 0.0)
-        .animate(CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
+    _moveUpEmojiWhenRelease = Tween(begin: 180.0, end: 0.0)
+        .animate(CurvedAnimation(parent: _animControlEmojiWhenRelease, curve: Curves.decelerate));
 
-    moveLeftIconLikeWhenRelease = Tween(begin: 20.0, end: 10.0)
-        .animate(CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
-    moveLeftIconLoveWhenRelease = Tween(begin: 68.0, end: 10.0)
-        .animate(CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
-    moveLeftIconHahaWhenRelease = Tween(begin: 116.0, end: 10.0)
-        .animate(CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
-    moveLeftIconWowWhenRelease = Tween(begin: 164.0, end: 10.0)
-        .animate(CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
-    moveLeftIconSadWhenRelease = Tween(begin: 212.0, end: 10.0)
-        .animate(CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
-    moveLeftIconAngryWhenRelease = Tween(begin: 260.0, end: 10.0)
-        .animate(CurvedAnimation(parent: animControlIconWhenRelease, curve: Curves.decelerate));
+    _moveLeftEmojiLikeWhenRelease = Tween(begin: 20.0, end: 10.0)
+        .animate(CurvedAnimation(parent: _animControlEmojiWhenRelease, curve: Curves.decelerate));
+    _moveLeftEmojiLoveWhenRelease = Tween(begin: 68.0, end: 10.0)
+        .animate(CurvedAnimation(parent: _animControlEmojiWhenRelease, curve: Curves.decelerate));
+    _moveLeftEmojiHahaWhenRelease = Tween(begin: 116.0, end: 10.0)
+        .animate(CurvedAnimation(parent: _animControlEmojiWhenRelease, curve: Curves.decelerate));
+    _moveLeftEmojiWowWhenRelease = Tween(begin: 164.0, end: 10.0)
+        .animate(CurvedAnimation(parent: _animControlEmojiWhenRelease, curve: Curves.decelerate));
+    _moveLeftEmojiSadWhenRelease = Tween(begin: 212.0, end: 10.0)
+        .animate(CurvedAnimation(parent: _animControlEmojiWhenRelease, curve: Curves.decelerate));
+    _moveLeftEmojiAngryWhenRelease = Tween(begin: 260.0, end: 10.0)
+        .animate(CurvedAnimation(parent: _animControlEmojiWhenRelease, curve: Curves.decelerate));
 
-    zoomIconWhenRelease.addListener(() {
+    _zoomEmojiWhenRelease.addListener(() {
       setState(() {});
     });
-    moveUpIconWhenRelease.addListener(() {
+    _moveUpEmojiWhenRelease.addListener(() {
       setState(() {});
     });
 
-    moveLeftIconLikeWhenRelease.addListener(() {
+    _moveLeftEmojiLikeWhenRelease.addListener(() {
       setState(() {});
     });
-    moveLeftIconLoveWhenRelease.addListener(() {
+    _moveLeftEmojiLoveWhenRelease.addListener(() {
       setState(() {});
     });
-    moveLeftIconHahaWhenRelease.addListener(() {
+    _moveLeftEmojiHahaWhenRelease.addListener(() {
       setState(() {});
     });
-    moveLeftIconWowWhenRelease.addListener(() {
+    _moveLeftEmojiWowWhenRelease.addListener(() {
       setState(() {});
     });
-    moveLeftIconSadWhenRelease.addListener(() {
+    _moveLeftEmojiSadWhenRelease.addListener(() {
       setState(() {});
     });
-    moveLeftIconAngryWhenRelease.addListener(() {
+    _moveLeftEmojiAngryWhenRelease.addListener(() {
       setState(() {});
     });
   }
@@ -348,20 +330,20 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
   @override
   void dispose() {
     super.dispose();
-    animControlBtnLongPress.dispose();
-    animControlBox.dispose();
-    animControlIconWhenDrag.dispose();
-    animControlIconWhenDragInside.dispose();
-    animControlIconWhenDragOutside.dispose();
-    animControlBoxWhenDragOutside.dispose();
-    animControlIconWhenRelease.dispose();
+    _animControlBtnLongPress.dispose();
+    _animControlBox.dispose();
+    _animControlEmojiWhenDrag.dispose();
+    _animControlEmojiWhenDragInside.dispose();
+    _animControlEmojiWhenDragOutside.dispose();
+    _animControlBoxWhenDragOutside.dispose();
+    _animControlEmojiWhenRelease.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Column(
-        children: <Widget>[
+        children: [
           // Just a top space
           Container(
             width: double.infinity,
@@ -371,127 +353,127 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
           // main content
           Container(
             child: Stack(
-              children: <Widget>[
-                // Box and icons
+              children: [
+                // Box and emoji
                 Stack(
-                  children: <Widget>[
+                  children: [
                     // Box
-                    renderBox(),
+                    _renderBox(),
 
-                    // Icons
-                    renderIcons(),
+                    // Emojis
+                    _renderEmoji(),
                   ],
                   alignment: Alignment.bottomCenter,
                 ),
 
                 // Button like
-                renderBtnLike(),
+                _renderBtnLike(),
 
-                // Icons when jump
-                // Icon like
-                whichIconUserChoose == 1 && !isDragging
+                // Emojis when jump
+                // Emoji like
+                _emojiUserChoose == ReactionEmoji.like && !_isDragging
                     ? Container(
                         child: Transform.scale(
                           child: Image.asset(
-                            'images/like.gif',
+                            AssetImages.likeGif,
                             width: 40.0,
                             height: 40.0,
                           ),
-                          scale: this.zoomIconWhenRelease.value,
+                          scale: this._zoomEmojiWhenRelease.value,
                         ),
                         margin: EdgeInsets.only(
-                          top: processTopPosition(this.moveUpIconWhenRelease.value),
-                          left: this.moveLeftIconLikeWhenRelease.value,
+                          top: _processTopPosition(this._moveUpEmojiWhenRelease.value),
+                          left: this._moveLeftEmojiLikeWhenRelease.value,
                         ),
                       )
                     : Container(),
 
-                // Icon love
-                whichIconUserChoose == 2 && !isDragging
+                // Emoji love
+                _emojiUserChoose == ReactionEmoji.love && !_isDragging
                     ? Container(
                         child: Transform.scale(
                           child: Image.asset(
-                            'images/love.gif',
+                            AssetImages.loveGif,
                             width: 40.0,
                             height: 40.0,
                           ),
-                          scale: this.zoomIconWhenRelease.value,
+                          scale: this._zoomEmojiWhenRelease.value,
                         ),
                         margin: EdgeInsets.only(
-                          top: processTopPosition(this.moveUpIconWhenRelease.value),
-                          left: this.moveLeftIconLoveWhenRelease.value,
+                          top: _processTopPosition(this._moveUpEmojiWhenRelease.value),
+                          left: this._moveLeftEmojiLoveWhenRelease.value,
                         ),
                       )
                     : Container(),
 
-                // Icon haha
-                whichIconUserChoose == 3 && !isDragging
+                // Emoji haha
+                _emojiUserChoose == ReactionEmoji.haha && !_isDragging
                     ? Container(
                         child: Transform.scale(
                           child: Image.asset(
-                            'images/haha.gif',
+                            AssetImages.hahaGif,
                             width: 40.0,
                             height: 40.0,
                           ),
-                          scale: this.zoomIconWhenRelease.value,
+                          scale: this._zoomEmojiWhenRelease.value,
                         ),
                         margin: EdgeInsets.only(
-                          top: processTopPosition(this.moveUpIconWhenRelease.value),
-                          left: this.moveLeftIconHahaWhenRelease.value,
+                          top: _processTopPosition(this._moveUpEmojiWhenRelease.value),
+                          left: this._moveLeftEmojiHahaWhenRelease.value,
                         ),
                       )
                     : Container(),
 
-                // Icon Wow
-                whichIconUserChoose == 4 && !isDragging
+                // Emoji Wow
+                _emojiUserChoose == ReactionEmoji.wow && !_isDragging
                     ? Container(
                         child: Transform.scale(
                           child: Image.asset(
-                            'images/wow.gif',
+                            AssetImages.wowGif,
                             width: 40.0,
                             height: 40.0,
                           ),
-                          scale: this.zoomIconWhenRelease.value,
+                          scale: this._zoomEmojiWhenRelease.value,
                         ),
                         margin: EdgeInsets.only(
-                          top: processTopPosition(this.moveUpIconWhenRelease.value),
-                          left: this.moveLeftIconWowWhenRelease.value,
+                          top: _processTopPosition(this._moveUpEmojiWhenRelease.value),
+                          left: this._moveLeftEmojiWowWhenRelease.value,
                         ),
                       )
                     : Container(),
 
-                // Icon sad
-                whichIconUserChoose == 5 && !isDragging
+                // Emoji sad
+                _emojiUserChoose == ReactionEmoji.sad && !_isDragging
                     ? Container(
                         child: Transform.scale(
                           child: Image.asset(
-                            'images/sad.gif',
+                            AssetImages.sadGif,
                             width: 40.0,
                             height: 40.0,
                           ),
-                          scale: this.zoomIconWhenRelease.value,
+                          scale: this._zoomEmojiWhenRelease.value,
                         ),
                         margin: EdgeInsets.only(
-                          top: processTopPosition(this.moveUpIconWhenRelease.value),
-                          left: this.moveLeftIconSadWhenRelease.value,
+                          top: _processTopPosition(this._moveUpEmojiWhenRelease.value),
+                          left: this._moveLeftEmojiSadWhenRelease.value,
                         ),
                       )
                     : Container(),
 
-                // Icon angry
-                whichIconUserChoose == 6 && !isDragging
+                // Emoji angry
+                _emojiUserChoose == ReactionEmoji.angry && !_isDragging
                     ? Container(
                         child: Transform.scale(
                           child: Image.asset(
-                            'images/angry.gif',
+                            AssetImages.angryGif,
                             width: 40.0,
                             height: 40.0,
                           ),
-                          scale: this.zoomIconWhenRelease.value,
+                          scale: this._zoomEmojiWhenRelease.value,
                         ),
                         margin: EdgeInsets.only(
-                          top: processTopPosition(this.moveUpIconWhenRelease.value),
-                          left: this.moveLeftIconAngryWhenRelease.value,
+                          top: _processTopPosition(this._moveUpEmojiWhenRelease.value),
+                          left: this._moveLeftEmojiAngryWhenRelease.value,
                         ),
                       )
                     : Container(),
@@ -505,12 +487,12 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
           ),
         ],
       ),
-      onHorizontalDragEnd: onHorizontalDragEndBoxIcon,
-      onHorizontalDragUpdate: onHorizontalDragUpdateBoxIcon,
+      onHorizontalDragEnd: _onHorizontalDragEndBoxEmoji,
+      onHorizontalDragUpdate: _onHorizontalDragUpdateBoxEmoji,
     );
   }
 
-  Widget renderBox() {
+  Widget _renderBox() {
     return Opacity(
       child: Container(
         decoration: BoxDecoration(
@@ -519,34 +501,36 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
           border: Border.all(color: Colors.grey.shade300, width: 0.3),
           boxShadow: [
             BoxShadow(
-                color: Colors.grey,
-                blurRadius: 5.0,
-                // LTRB
-                offset: Offset.lerp(Offset(0.0, 0.0), Offset(0.0, 0.5), 10.0)!),
+              color: Colors.grey,
+              blurRadius: 5.0,
+              offset: Offset.lerp(Offset(0.0, 0.0), Offset(0.0, 0.5), 10.0)!,
+            ),
           ],
         ),
         width: 300.0,
-        height: isDragging
-            ? (previousIconFocus == 0 ? this.zoomBoxIcon.value : 40.0)
-            : isDraggingOutside
-                ? this.zoomBoxWhenDragOutside.value
+        height: _isDragging
+            ? _previousEmojiFocus == ReactionEmoji.nothing
+                ? this._zoomBoxEmoji.value
+                : 40.0
+            : _isDraggingOutside
+                ? this._zoomBoxWhenDragOutside.value
                 : 50.0,
         margin: EdgeInsets.only(bottom: 130.0, left: 10.0),
       ),
-      opacity: this.fadeInBox.value,
+      opacity: this._fadeInBox.value,
     );
   }
 
-  Widget renderIcons() {
+  Widget _renderEmoji() {
     return Container(
       child: Row(
-        children: <Widget>[
-          // icon like
+        children: [
+          // emoji like
           Transform.scale(
             child: Container(
               child: Column(
-                children: <Widget>[
-                  currentIconFocus == 1
+                children: [
+                  _currentEmojiFocus == ReactionEmoji.like
                       ? Container(
                           child: Text(
                             'Like',
@@ -561,36 +545,36 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                         )
                       : Container(),
                   Image.asset(
-                    'images/like.gif',
+                    AssetImages.likeGif,
                     width: 40.0,
                     height: 40.0,
                     fit: BoxFit.contain,
                   ),
                 ],
               ),
-              margin: EdgeInsets.only(bottom: pushIconLikeUp.value),
+              margin: EdgeInsets.only(bottom: _pushEmojiLikeUp.value),
               width: 40.0,
-              height: currentIconFocus == 1 ? 70.0 : 40.0,
+              height: _currentEmojiFocus == ReactionEmoji.like ? 70.0 : 40.0,
             ),
-            scale: isDragging
-                ? (currentIconFocus == 1
-                    ? this.zoomIconChosen.value
-                    : (previousIconFocus == 1
-                        ? this.zoomIconNotChosen.value
-                        : isJustDragInside
-                            ? this.zoomIconWhenDragInside.value
+            scale: _isDragging
+                ? (_currentEmojiFocus == ReactionEmoji.like
+                    ? this._zoomEmojiChosen.value
+                    : (_previousEmojiFocus == ReactionEmoji.like
+                        ? this._zoomEmojiNotChosen.value
+                        : _isJustDragInside
+                            ? this._zoomEmojiWhenDragInside.value
                             : 0.8))
-                : isDraggingOutside
-                    ? this.zoomIconWhenDragOutside.value
-                    : this.zoomIconLike.value,
+                : _isDraggingOutside
+                    ? this._zoomEmojiWhenDragOutside.value
+                    : this._zoomEmojiLike.value,
           ),
 
-          // icon love
+          // emoji love
           Transform.scale(
             child: Container(
               child: Column(
-                children: <Widget>[
-                  currentIconFocus == 2
+                children: [
+                  _currentEmojiFocus == ReactionEmoji.love
                       ? Container(
                           child: Text(
                             'Love',
@@ -603,36 +587,36 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                         )
                       : Container(),
                   Image.asset(
-                    'images/love.gif',
+                    AssetImages.loveGif,
                     width: 40.0,
                     height: 40.0,
                     fit: BoxFit.contain,
                   ),
                 ],
               ),
-              margin: EdgeInsets.only(bottom: pushIconLoveUp.value),
+              margin: EdgeInsets.only(bottom: _pushEmojiLoveUp.value),
               width: 40.0,
-              height: currentIconFocus == 2 ? 70.0 : 40.0,
+              height: _currentEmojiFocus == ReactionEmoji.love ? 70.0 : 40.0,
             ),
-            scale: isDragging
-                ? (currentIconFocus == 2
-                    ? this.zoomIconChosen.value
-                    : (previousIconFocus == 2
-                        ? this.zoomIconNotChosen.value
-                        : isJustDragInside
-                            ? this.zoomIconWhenDragInside.value
+            scale: _isDragging
+                ? (_currentEmojiFocus == ReactionEmoji.love
+                    ? this._zoomEmojiChosen.value
+                    : (_previousEmojiFocus == ReactionEmoji.love
+                        ? this._zoomEmojiNotChosen.value
+                        : _isJustDragInside
+                            ? this._zoomEmojiWhenDragInside.value
                             : 0.8))
-                : isDraggingOutside
-                    ? this.zoomIconWhenDragOutside.value
-                    : this.zoomIconLove.value,
+                : _isDraggingOutside
+                    ? this._zoomEmojiWhenDragOutside.value
+                    : this._zoomEmojiLove.value,
           ),
 
-          // icon haha
+          // emoji haha
           Transform.scale(
             child: Container(
               child: Column(
-                children: <Widget>[
-                  currentIconFocus == 3
+                children: [
+                  _currentEmojiFocus == ReactionEmoji.haha
                       ? Container(
                           child: Text(
                             'Haha',
@@ -645,36 +629,36 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                         )
                       : Container(),
                   Image.asset(
-                    'images/haha.gif',
+                    AssetImages.hahaGif,
                     width: 40.0,
                     height: 40.0,
                     fit: BoxFit.contain,
                   ),
                 ],
               ),
-              margin: EdgeInsets.only(bottom: pushIconHahaUp.value),
+              margin: EdgeInsets.only(bottom: _pushEmojiHahaUp.value),
               width: 40.0,
-              height: currentIconFocus == 3 ? 70.0 : 40.0,
+              height: _currentEmojiFocus == ReactionEmoji.haha ? 70.0 : 40.0,
             ),
-            scale: isDragging
-                ? (currentIconFocus == 3
-                    ? this.zoomIconChosen.value
-                    : (previousIconFocus == 3
-                        ? this.zoomIconNotChosen.value
-                        : isJustDragInside
-                            ? this.zoomIconWhenDragInside.value
+            scale: _isDragging
+                ? (_currentEmojiFocus == ReactionEmoji.haha
+                    ? this._zoomEmojiChosen.value
+                    : (_previousEmojiFocus == ReactionEmoji.haha
+                        ? this._zoomEmojiNotChosen.value
+                        : _isJustDragInside
+                            ? this._zoomEmojiWhenDragInside.value
                             : 0.8))
-                : isDraggingOutside
-                    ? this.zoomIconWhenDragOutside.value
-                    : this.zoomIconHaha.value,
+                : _isDraggingOutside
+                    ? this._zoomEmojiWhenDragOutside.value
+                    : this._zoomEmojiHaha.value,
           ),
 
-          // icon wow
+          // emoji wow
           Transform.scale(
             child: Container(
               child: Column(
-                children: <Widget>[
-                  currentIconFocus == 4
+                children: [
+                  _currentEmojiFocus == ReactionEmoji.wow
                       ? Container(
                           child: Text(
                             'Wow',
@@ -687,36 +671,36 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                         )
                       : Container(),
                   Image.asset(
-                    'images/wow.gif',
+                    AssetImages.wowGif,
                     width: 40.0,
                     height: 40.0,
                     fit: BoxFit.contain,
                   ),
                 ],
               ),
-              margin: EdgeInsets.only(bottom: pushIconWowUp.value),
+              margin: EdgeInsets.only(bottom: _pushEmojiWowUp.value),
               width: 40.0,
-              height: currentIconFocus == 4 ? 70.0 : 40.0,
+              height: _currentEmojiFocus == ReactionEmoji.wow ? 70.0 : 40.0,
             ),
-            scale: isDragging
-                ? (currentIconFocus == 4
-                    ? this.zoomIconChosen.value
-                    : (previousIconFocus == 4
-                        ? this.zoomIconNotChosen.value
-                        : isJustDragInside
-                            ? this.zoomIconWhenDragInside.value
+            scale: _isDragging
+                ? (_currentEmojiFocus == ReactionEmoji.wow
+                    ? this._zoomEmojiChosen.value
+                    : (_previousEmojiFocus == ReactionEmoji.wow
+                        ? this._zoomEmojiNotChosen.value
+                        : _isJustDragInside
+                            ? this._zoomEmojiWhenDragInside.value
                             : 0.8))
-                : isDraggingOutside
-                    ? this.zoomIconWhenDragOutside.value
-                    : this.zoomIconWow.value,
+                : _isDraggingOutside
+                    ? this._zoomEmojiWhenDragOutside.value
+                    : this._zoomEmojiWow.value,
           ),
 
-          // icon sad
+          // emoji sad
           Transform.scale(
             child: Container(
               child: Column(
-                children: <Widget>[
-                  currentIconFocus == 5
+                children: [
+                  _currentEmojiFocus == ReactionEmoji.sad
                       ? Container(
                           child: Text(
                             'Sad',
@@ -731,36 +715,36 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                         )
                       : Container(),
                   Image.asset(
-                    'images/sad.gif',
+                    AssetImages.sadGif,
                     width: 40.0,
                     height: 40.0,
                     fit: BoxFit.contain,
                   ),
                 ],
               ),
-              margin: EdgeInsets.only(bottom: pushIconSadUp.value),
+              margin: EdgeInsets.only(bottom: _pushEmojiSadUp.value),
               width: 40.0,
-              height: currentIconFocus == 5 ? 70.0 : 40.0,
+              height: _currentEmojiFocus == ReactionEmoji.sad ? 70.0 : 40.0,
             ),
-            scale: isDragging
-                ? (currentIconFocus == 5
-                    ? this.zoomIconChosen.value
-                    : (previousIconFocus == 5
-                        ? this.zoomIconNotChosen.value
-                        : isJustDragInside
-                            ? this.zoomIconWhenDragInside.value
+            scale: _isDragging
+                ? (_currentEmojiFocus == ReactionEmoji.sad
+                    ? this._zoomEmojiChosen.value
+                    : (_previousEmojiFocus == ReactionEmoji.sad
+                        ? this._zoomEmojiNotChosen.value
+                        : _isJustDragInside
+                            ? this._zoomEmojiWhenDragInside.value
                             : 0.8))
-                : isDraggingOutside
-                    ? this.zoomIconWhenDragOutside.value
-                    : this.zoomIconSad.value,
+                : _isDraggingOutside
+                    ? this._zoomEmojiWhenDragOutside.value
+                    : this._zoomEmojiSad.value,
           ),
 
-          // icon angry
+          // emoji angry
           Transform.scale(
             child: Container(
               child: Column(
-                children: <Widget>[
-                  currentIconFocus == 6
+                children: [
+                  _currentEmojiFocus == ReactionEmoji.angry
                       ? Container(
                           child: Text(
                             'Angry',
@@ -775,28 +759,28 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
                         )
                       : Container(),
                   Image.asset(
-                    'images/angry.gif',
+                    AssetImages.angryGif,
                     width: 40.0,
                     height: 40.0,
                     fit: BoxFit.contain,
                   ),
                 ],
               ),
-              margin: EdgeInsets.only(bottom: pushIconAngryUp.value),
+              margin: EdgeInsets.only(bottom: _pushEmojiAngryUp.value),
               width: 40.0,
-              height: currentIconFocus == 6 ? 70.0 : 40.0,
+              height: _currentEmojiFocus == ReactionEmoji.angry ? 70.0 : 40.0,
             ),
-            scale: isDragging
-                ? (currentIconFocus == 6
-                    ? this.zoomIconChosen.value
-                    : (previousIconFocus == 6
-                        ? this.zoomIconNotChosen.value
-                        : isJustDragInside
-                            ? this.zoomIconWhenDragInside.value
+            scale: _isDragging
+                ? (_currentEmojiFocus == ReactionEmoji.angry
+                    ? this._zoomEmojiChosen.value
+                    : (_previousEmojiFocus == ReactionEmoji.angry
+                        ? this._zoomEmojiNotChosen.value
+                        : _isJustDragInside
+                            ? this._zoomEmojiWhenDragInside.value
                             : 0.8))
-                : isDraggingOutside
-                    ? this.zoomIconWhenDragOutside.value
-                    : this.zoomIconAngry.value,
+                : _isDraggingOutside
+                    ? this._zoomEmojiWhenDragOutside.value
+                    : this._zoomEmojiAngry.value,
           ),
         ],
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -804,50 +788,53 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
       ),
       width: 300.0,
       height: 250.0,
-      margin: EdgeInsets.only(left: this.moveRightGroupIcon.value, top: 50.0),
+      margin: EdgeInsets.only(left: this._moveRightGroupEmoji.value, top: 50.0),
       // uncomment here to see area of draggable
       // color: Colors.amber.withOpacity(0.5),
     );
   }
 
-  Widget renderBtnLike() {
+  Widget _renderBtnLike() {
     return Container(
       child: GestureDetector(
-        onTapDown: onTapDownBtn,
-        onTapUp: onTapUpBtn,
-        onTap: onTapBtn,
+        onTapDown: _onTapDownBtn,
+        onTapUp: _onTapUpBtn,
+        onTap: _onTapBtn,
         child: Container(
           child: Row(
-            children: <Widget>[
-              // Icon like
+            children: [
+              // Emoji like
               Transform.scale(
                 child: Transform.rotate(
                   child: Image.asset(
-                    getImageIconBtn(),
+                    _getImageEmojiBtn(),
                     width: 25.0,
                     height: 25.0,
                     fit: BoxFit.contain,
-                    color: getTintColorIconBtn(),
+                    color: _getTintColorEmojiBtn(),
                   ),
-                  angle:
-                      !isLongPress ? handleOutputRangeTiltIconLike(tiltIconLikeInBtn2.value) : tiltIconLikeInBtn.value,
+                  angle: !_isLongPress
+                      ? _handleOutputRangeTiltEmojiLike(_tiltEmojiLikeInBtn2.value)
+                      : _tiltEmojiLikeInBtn.value,
                 ),
-                scale:
-                    !isLongPress ? handleOutputRangeZoomInIconLike(zoomIconLikeInBtn2.value) : zoomIconLikeInBtn.value,
+                scale: !_isLongPress
+                    ? _handleOutputRangeZoomInEmojiLike(_zoomEmojiLikeInBtn2.value)
+                    : _zoomEmojiLikeInBtn.value,
               ),
 
               // Text like
               Transform.scale(
                 child: Text(
-                  getTextBtn(),
+                  _getTextBtn(),
                   style: TextStyle(
-                    color: getColorTextBtn(),
+                    color: _getColorTextBtn(),
                     fontSize: 14.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                scale:
-                    !isLongPress ? handleOutputRangeZoomInIconLike(zoomIconLikeInBtn2.value) : zoomTextLikeInBtn.value,
+                scale: !_isLongPress
+                    ? _handleOutputRangeZoomInEmojiLike(_zoomEmojiLikeInBtn2.value)
+                    : _zoomTextLikeInBtn.value,
               ),
             ],
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -860,93 +847,93 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4.0),
         color: Colors.white,
-        border: Border.all(color: getColorBorderBtn()),
+        border: Border.all(color: _getColorBorderBtn()),
       ),
       margin: EdgeInsets.only(top: 190.0),
     );
   }
 
-  String getTextBtn() {
-    if (isDragging) {
+  String _getTextBtn() {
+    if (_isDragging) {
       return 'Like';
     }
-    switch (whichIconUserChoose) {
-      case 1:
+    switch (_emojiUserChoose) {
+      case ReactionEmoji.nothing:
         return 'Like';
-      case 2:
+      case ReactionEmoji.like:
+        return 'Like';
+      case ReactionEmoji.love:
         return 'Love';
-      case 3:
+      case ReactionEmoji.haha:
         return 'Haha';
-      case 4:
+      case ReactionEmoji.wow:
         return 'Wow';
-      case 5:
+      case ReactionEmoji.sad:
         return 'Sad';
-      case 6:
+      case ReactionEmoji.angry:
         return 'Angry';
-      default:
-        return 'Like';
     }
   }
 
-  Color getColorTextBtn() {
-    if ((!isLongPress && isLiked)) {
+  Color _getColorTextBtn() {
+    if ((!_isLongPress && _isLiked)) {
       return Color(0xff3b5998);
-    } else if (!isDragging) {
-      switch (whichIconUserChoose) {
-        case 1:
-          return Color(0xff3b5998);
-        case 2:
-          return Color(0xffED5167);
-        case 3:
-        case 4:
-        case 5:
-          return Color(0xffFFD96A);
-        case 6:
-          return Color(0xffF6876B);
-        default:
+    } else if (!_isDragging) {
+      switch (_emojiUserChoose) {
+        case ReactionEmoji.nothing:
           return Colors.grey;
+        case ReactionEmoji.like:
+          return Color(0xff3b5998);
+        case ReactionEmoji.love:
+          return Color(0xffED5167);
+        case ReactionEmoji.haha:
+        case ReactionEmoji.wow:
+        case ReactionEmoji.sad:
+          return Color(0xffFFD96A);
+        case ReactionEmoji.angry:
+          return Color(0xffF6876B);
       }
     } else {
       return Colors.grey;
     }
   }
 
-  String getImageIconBtn() {
-    if (!isLongPress && isLiked) {
-      return 'images/ic_like_fill.png';
-    } else if (!isDragging) {
-      switch (whichIconUserChoose) {
-        case 1:
-          return 'images/ic_like_fill.png';
-        case 2:
-          return 'images/love2.png';
-        case 3:
-          return 'images/haha2.png';
-        case 4:
-          return 'images/wow2.png';
-        case 5:
-          return 'images/sad2.png';
-        case 6:
-          return 'images/angry2.png';
-        default:
-          return 'images/ic_like.png';
+  String _getImageEmojiBtn() {
+    if (!_isLongPress && _isLiked) {
+      return AssetImages.icLikeFill;
+    } else if (!_isDragging) {
+      switch (_emojiUserChoose) {
+        case ReactionEmoji.nothing:
+          return AssetImages.icLike;
+        case ReactionEmoji.like:
+          return AssetImages.icLikeFill;
+        case ReactionEmoji.love:
+          return AssetImages.icLove2;
+        case ReactionEmoji.haha:
+          return AssetImages.icHaha2;
+        case ReactionEmoji.wow:
+          return AssetImages.icWow2;
+        case ReactionEmoji.sad:
+          return AssetImages.icSad2;
+        case ReactionEmoji.angry:
+          return AssetImages.icAngry2;
       }
     } else {
-      return 'images/ic_like.png';
+      return AssetImages.icLike;
     }
   }
 
-  Color? getTintColorIconBtn() {
-    if (!isLongPress && isLiked) {
+  Color? _getTintColorEmojiBtn() {
+    if (!_isLongPress && _isLiked) {
       return Color(0xff3b5998);
-    } else if (!isDragging && whichIconUserChoose != 0) {
+    } else if (!_isDragging && _emojiUserChoose != ReactionEmoji.nothing) {
       return null;
     } else {
       return Colors.grey;
     }
   }
 
-  double processTopPosition(double value) {
+  double _processTopPosition(double value) {
     // margin top 100 -> 40 -> 160 (value from 180 -> 0)
     if (value >= 120.0) {
       return value - 80.0;
@@ -955,153 +942,153 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
     }
   }
 
-  Color getColorBorderBtn() {
-    if ((!isLongPress && isLiked)) {
+  Color _getColorBorderBtn() {
+    if ((!_isLongPress && _isLiked)) {
       return Color(0xff3b5998);
-    } else if (!isDragging) {
-      switch (whichIconUserChoose) {
-        case 1:
-          return Color(0xff3b5998);
-        case 2:
-          return Color(0xffED5167);
-        case 3:
-        case 4:
-        case 5:
-          return Color(0xffFFD96A);
-        case 6:
-          return Color(0xffF6876B);
-        default:
+    } else if (!_isDragging) {
+      switch (_emojiUserChoose) {
+        case ReactionEmoji.nothing:
           return Colors.grey;
+        case ReactionEmoji.like:
+          return Color(0xff3b5998);
+        case ReactionEmoji.love:
+          return Color(0xffED5167);
+        case ReactionEmoji.haha:
+        case ReactionEmoji.wow:
+        case ReactionEmoji.sad:
+          return Color(0xffFFD96A);
+        case ReactionEmoji.angry:
+          return Color(0xffF6876B);
       }
     } else {
       return Colors.grey.shade400;
     }
   }
 
-  void onHorizontalDragEndBoxIcon(DragEndDetails dragEndDetail) {
-    isDragging = false;
-    isDraggingOutside = false;
-    isJustDragInside = true;
-    previousIconFocus = 0;
-    currentIconFocus = 0;
+  void _onHorizontalDragEndBoxEmoji(DragEndDetails dragEndDetail) {
+    _isDragging = false;
+    _isDraggingOutside = false;
+    _isJustDragInside = true;
+    _previousEmojiFocus = ReactionEmoji.nothing;
+    _currentEmojiFocus = ReactionEmoji.nothing;
 
-    onTapUpBtn(null);
+    _onTapUpBtn(null);
   }
 
-  void onHorizontalDragUpdateBoxIcon(DragUpdateDetails dragUpdateDetail) {
+  void _onHorizontalDragUpdateBoxEmoji(DragUpdateDetails dragUpdateDetail) {
     // return if the drag is drag without press button
-    if (!isLongPress) return;
+    if (!_isLongPress) return;
 
     // the margin top the box is 150
     // and plus the height of toolbar and the status bar
     // so the range we check is about 200 -> 500
 
     if (dragUpdateDetail.globalPosition.dy >= 200 && dragUpdateDetail.globalPosition.dy <= 500) {
-      isDragging = true;
-      isDraggingOutside = false;
+      _isDragging = true;
+      _isDraggingOutside = false;
 
-      if (isJustDragInside && !animControlIconWhenDragInside.isAnimating) {
-        animControlIconWhenDragInside.reset();
-        animControlIconWhenDragInside.forward();
+      if (_isJustDragInside && !_animControlEmojiWhenDragInside.isAnimating) {
+        _animControlEmojiWhenDragInside.reset();
+        _animControlEmojiWhenDragInside.forward();
       }
 
       if (dragUpdateDetail.globalPosition.dx >= 20 && dragUpdateDetail.globalPosition.dx < 83) {
-        if (currentIconFocus != 1) {
-          handleWhenDragBetweenIcon(1);
+        if (_currentEmojiFocus != ReactionEmoji.like) {
+          _handleWhenDragBetweenEmoji(ReactionEmoji.like);
         }
       } else if (dragUpdateDetail.globalPosition.dx >= 83 && dragUpdateDetail.globalPosition.dx < 126) {
-        if (currentIconFocus != 2) {
-          handleWhenDragBetweenIcon(2);
+        if (_currentEmojiFocus != ReactionEmoji.love) {
+          _handleWhenDragBetweenEmoji(ReactionEmoji.love);
         }
       } else if (dragUpdateDetail.globalPosition.dx >= 126 && dragUpdateDetail.globalPosition.dx < 180) {
-        if (currentIconFocus != 3) {
-          handleWhenDragBetweenIcon(3);
+        if (_currentEmojiFocus != ReactionEmoji.haha) {
+          _handleWhenDragBetweenEmoji(ReactionEmoji.haha);
         }
       } else if (dragUpdateDetail.globalPosition.dx >= 180 && dragUpdateDetail.globalPosition.dx < 233) {
-        if (currentIconFocus != 4) {
-          handleWhenDragBetweenIcon(4);
+        if (_currentEmojiFocus != ReactionEmoji.wow) {
+          _handleWhenDragBetweenEmoji(ReactionEmoji.wow);
         }
       } else if (dragUpdateDetail.globalPosition.dx >= 233 && dragUpdateDetail.globalPosition.dx < 286) {
-        if (currentIconFocus != 5) {
-          handleWhenDragBetweenIcon(5);
+        if (_currentEmojiFocus != ReactionEmoji.sad) {
+          _handleWhenDragBetweenEmoji(ReactionEmoji.sad);
         }
       } else if (dragUpdateDetail.globalPosition.dx >= 286 && dragUpdateDetail.globalPosition.dx < 340) {
-        if (currentIconFocus != 6) {
-          handleWhenDragBetweenIcon(6);
+        if (_currentEmojiFocus != ReactionEmoji.angry) {
+          _handleWhenDragBetweenEmoji(ReactionEmoji.angry);
         }
       }
     } else {
-      whichIconUserChoose = 0;
-      previousIconFocus = 0;
-      currentIconFocus = 0;
-      isJustDragInside = true;
+      _emojiUserChoose = ReactionEmoji.nothing;
+      _previousEmojiFocus = ReactionEmoji.nothing;
+      _currentEmojiFocus = ReactionEmoji.nothing;
+      _isJustDragInside = true;
 
-      if (isDragging && !isDraggingOutside) {
-        isDragging = false;
-        isDraggingOutside = true;
-        animControlIconWhenDragOutside.reset();
-        animControlIconWhenDragOutside.forward();
-        animControlBoxWhenDragOutside.reset();
-        animControlBoxWhenDragOutside.forward();
+      if (_isDragging && !_isDraggingOutside) {
+        _isDragging = false;
+        _isDraggingOutside = true;
+        _animControlEmojiWhenDragOutside.reset();
+        _animControlEmojiWhenDragOutside.forward();
+        _animControlBoxWhenDragOutside.reset();
+        _animControlBoxWhenDragOutside.forward();
       }
     }
   }
 
-  void handleWhenDragBetweenIcon(int currentIcon) {
-    playSound('icon_focus.mp3');
-    whichIconUserChoose = currentIcon;
-    previousIconFocus = currentIconFocus;
-    currentIconFocus = currentIcon;
-    animControlIconWhenDrag.reset();
-    animControlIconWhenDrag.forward();
+  void _handleWhenDragBetweenEmoji(ReactionEmoji currentEmoji) {
+    _playSound(AssetSounds.focus);
+    _emojiUserChoose = currentEmoji;
+    _previousEmojiFocus = _currentEmojiFocus;
+    _currentEmojiFocus = currentEmoji;
+    _animControlEmojiWhenDrag.reset();
+    _animControlEmojiWhenDrag.forward();
   }
 
-  void onTapDownBtn(TapDownDetails tapDownDetail) {
-    holdTimer = Timer(durationLongPress, showBox);
+  void _onTapDownBtn(TapDownDetails tapDownDetail) {
+    _holdTimer = Timer(_durationLongPress, _showBox);
   }
 
-  void onTapUpBtn(TapUpDetails? tapUpDetail) {
-    if (isLongPress) {
-      if (whichIconUserChoose == 0) {
-        playSound('box_down.mp3');
+  void _onTapUpBtn(TapUpDetails? tapUpDetail) {
+    if (_isLongPress) {
+      if (_emojiUserChoose == ReactionEmoji.nothing) {
+        _playSound(AssetSounds.boxDown);
       } else {
-        playSound('icon_choose.mp3');
+        _playSound(AssetSounds.pick);
       }
     }
 
-    Timer(Duration(milliseconds: durationAnimationBox), () {
-      isLongPress = false;
+    Timer(Duration(milliseconds: _durationAnimationBox), () {
+      _isLongPress = false;
     });
 
-    holdTimer.cancel();
+    _holdTimer.cancel();
 
-    animControlBtnLongPress.reverse();
+    _animControlBtnLongPress.reverse();
 
     setReverseValue();
-    animControlBox.reverse();
+    _animControlBox.reverse();
 
-    animControlIconWhenRelease.reset();
-    animControlIconWhenRelease.forward();
+    _animControlEmojiWhenRelease.reset();
+    _animControlEmojiWhenRelease.forward();
   }
 
   // when user short press the button
-  void onTapBtn() {
-    if (!isLongPress) {
-      if (whichIconUserChoose == 0) {
-        isLiked = !isLiked;
+  void _onTapBtn() {
+    if (!_isLongPress) {
+      if (_emojiUserChoose == ReactionEmoji.nothing) {
+        _isLiked = !_isLiked;
       } else {
-        whichIconUserChoose = 0;
+        _emojiUserChoose = ReactionEmoji.nothing;
       }
-      if (isLiked) {
-        playSound('short_press_like.mp3');
-        animControlBtnShortPress.forward();
+      if (_isLiked) {
+        _playSound(AssetSounds.shortPressLike);
+        _animControlBtnShortPress.forward();
       } else {
-        animControlBtnShortPress.reverse();
+        _animControlBtnShortPress.reverse();
       }
     }
   }
 
-  double handleOutputRangeZoomInIconLike(double value) {
+  double _handleOutputRangeZoomInEmojiLike(double value) {
     if (value >= 0.8) {
       return value;
     } else if (value >= 0.4) {
@@ -1111,7 +1098,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
     }
   }
 
-  double handleOutputRangeTiltIconLike(double value) {
+  double _handleOutputRangeTiltEmojiLike(double value) {
     if (value <= 0.2) {
       return value;
     } else if (value <= 0.6) {
@@ -1121,118 +1108,112 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
     }
   }
 
-  void showBox() {
-    playSound('box_up.mp3');
-    isLongPress = true;
+  void _showBox() {
+    _playSound(AssetSounds.boxUp);
+    _isLongPress = true;
 
-    animControlBtnLongPress.forward();
+    _animControlBtnLongPress.forward();
 
-    setForwardValue();
-    animControlBox.forward();
+    _setForwardValue();
+    _animControlBox.forward();
   }
 
   // We need to set the value for reverse because if not
-  // the angry-icon will be pulled down first, not the like-icon
+  // the angry-emoji will be pulled down first, not the like-emoji
   void setReverseValue() {
-    // Icons
-    pushIconLikeUp = Tween(begin: 30.0, end: 60.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.5, 1.0)),
+    // Emojis
+    _pushEmojiLikeUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.5, 1.0)),
     );
-    zoomIconLike = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.5, 1.0)),
-    );
-
-    pushIconLoveUp = Tween(begin: 30.0, end: 60.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.4, 0.9)),
-    );
-    zoomIconLove = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.4, 0.9)),
+    _zoomEmojiLike = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.5, 1.0)),
     );
 
-    pushIconHahaUp = Tween(begin: 30.0, end: 60.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.3, 0.8)),
+    _pushEmojiLoveUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.4, 0.9)),
     );
-    zoomIconHaha = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.3, 0.8)),
-    );
-
-    pushIconWowUp = Tween(begin: 30.0, end: 60.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.2, 0.7)),
-    );
-    zoomIconWow = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.2, 0.7)),
+    _zoomEmojiLove = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.4, 0.9)),
     );
 
-    pushIconSadUp = Tween(begin: 30.0, end: 60.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.1, 0.6)),
+    _pushEmojiHahaUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.3, 0.8)),
     );
-    zoomIconSad = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.1, 0.6)),
+    _zoomEmojiHaha = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.3, 0.8)),
     );
 
-    pushIconAngryUp = Tween(begin: 30.0, end: 60.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.0, 0.5)),
+    _pushEmojiWowUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.2, 0.7)),
     );
-    zoomIconAngry = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.0, 0.5)),
+    _zoomEmojiWow = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.2, 0.7)),
+    );
+
+    _pushEmojiSadUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.1, 0.6)),
+    );
+    _zoomEmojiSad = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.1, 0.6)),
+    );
+
+    _pushEmojiAngryUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.0, 0.5)),
+    );
+    _zoomEmojiAngry = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.0, 0.5)),
     );
   }
 
   // When set the reverse value, we need set value to normal for the forward
-  void setForwardValue() {
-    // Icons
-    pushIconLikeUp = Tween(begin: 30.0, end: 60.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.0, 0.5)),
+  void _setForwardValue() {
+    // Emojis
+    _pushEmojiLikeUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.0, 0.5)),
     );
-    zoomIconLike = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.0, 0.5)),
-    );
-
-    pushIconLoveUp = Tween(begin: 30.0, end: 60.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.1, 0.6)),
-    );
-    zoomIconLove = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.1, 0.6)),
+    _zoomEmojiLike = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.0, 0.5)),
     );
 
-    pushIconHahaUp = Tween(begin: 30.0, end: 60.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.2, 0.7)),
+    _pushEmojiLoveUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.1, 0.6)),
     );
-    zoomIconHaha = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.2, 0.7)),
-    );
-
-    pushIconWowUp = Tween(begin: 30.0, end: 60.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.3, 0.8)),
-    );
-    zoomIconWow = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.3, 0.8)),
+    _zoomEmojiLove = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.1, 0.6)),
     );
 
-    pushIconSadUp = Tween(begin: 30.0, end: 60.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.4, 0.9)),
+    _pushEmojiHahaUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.2, 0.7)),
     );
-    zoomIconSad = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.4, 0.9)),
+    _zoomEmojiHaha = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.2, 0.7)),
     );
 
-    pushIconAngryUp = Tween(begin: 30.0, end: 60.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.5, 1.0)),
+    _pushEmojiWowUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.3, 0.8)),
     );
-    zoomIconAngry = Tween(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: animControlBox, curve: Interval(0.5, 1.0)),
+    _zoomEmojiWow = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.3, 0.8)),
+    );
+
+    _pushEmojiSadUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.4, 0.9)),
+    );
+    _zoomEmojiSad = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.4, 0.9)),
+    );
+
+    _pushEmojiAngryUp = Tween(begin: 30.0, end: 60.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.5, 1.0)),
+    );
+    _zoomEmojiAngry = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animControlBox, curve: Interval(0.5, 1.0)),
     );
   }
 
-  Future playSound(String nameSound) async {
+  Future<void> _playSound(String nameSound) async {
     // Sometimes multiple sound will play the same time, so we'll stop all before play the newest
-    await audioPlayer.stop();
-    final file = File('${(await getTemporaryDirectory()).path}/$nameSound');
-    await file.writeAsBytes((await loadAsset(nameSound)).buffer.asUint8List());
-    await audioPlayer.play(file.path, isLocal: true);
-  }
-
-  Future loadAsset(String nameSound) async {
-    return await rootBundle.load('sounds/$nameSound');
+    await _audioPlayer.stop();
+    await _audioPlayer.play(AssetSource(nameSound));
   }
 }

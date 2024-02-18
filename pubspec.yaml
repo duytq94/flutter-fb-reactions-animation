@@ -7,8 +7,7 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  audioplayers: ^0.20.1
-  path_provider: ^2.0.11
+  audioplayers: ^5.2.1
 
 dev_dependencies:
   flutter_test:
@@ -20,7 +19,7 @@ flutter:
 
   assets:
     - images/
-    - sounds/
+    - assets/
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: '>=3.1.5 <4.0.0'

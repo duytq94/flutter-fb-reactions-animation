@@ -2,8 +2,8 @@
 
 ## Description
 * The app to demo animation with Flutter by implement Facebook reactions. 
-* Video demo: https://youtu.be/gLdr9GCtZXg
-* How to do it: https://medium.com/@duytq94/facebook-reactions-with-flutter-9019ce8b95b8
+* Demo: https://youtu.be/gLdr9GCtZXg
+* Implement: https://medium.com/@duytq94/facebook-reactions-with-flutter-9019ce8b95b8
 
 ## Screenshot
 
